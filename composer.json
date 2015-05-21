@@ -1,0 +1,27 @@
+{
+    "name": "lav45/yii2-translated-behavior",
+    "description": "This extension allows you to quickly and simple enough to add translations for any ActiveRecord models.",
+    "keywords": [
+        "yii2",
+        "extension",
+        "behavior",
+        "translated"
+    ],
+    "homepage": "https://github.com/lav45/yii2-translated-behavior",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Alexey Loban",
+            "email": "lav451@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "lav45\\translate": ""
+        }
+    }
+}
