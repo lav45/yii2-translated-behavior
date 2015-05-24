@@ -10,7 +10,6 @@ namespace lav45\translate;
 
 use Yii;
 use yii\base\Behavior;
-use yii\base\Model;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\validators\Validator;
@@ -151,8 +150,14 @@ class TranslatedBehavior extends Behavior
 
     public function afterValidate()
     {
-        if (!Model::validateMultiple($this->getTranslateRelations())) {
-            foreach($this->getTranslateRelations() as $item) {
+        /** @var ActiveRecord $class */
+        $class = $this->getRelationClass();
+        $columns = array_keys($class::getTableSchema()->columns);
+        $ignore_columns = array_keys($this->getRelation()->link);
+        $attributes = array_diff($columns, $ignore_columns);
+
+        foreach ($this->getTranslateRelations() as $item) {
+            if ($item->validate($attributes) === false) {
                 $this->owner->addErrors($item->getErrors());
             }
         }
@@ -176,10 +181,11 @@ class TranslatedBehavior extends Behavior
     public function getTranslateAttributes()
     {
         if ($this->_translate_attributes === null && $this->owner !== null) {
+            /** @var ActiveRecord $class */
             $class = $this->getRelationClass();
-            /** @var ActiveRecord $model */
-            $model = new $class();
-            $attributes = array_diff($model->attributes(), $model->primaryKey());
+            $columns = array_keys($class::getTableSchema()->columns);
+            $primaryKey = $class::getTableSchema()->primaryKey;
+            $attributes = array_diff($columns, $primaryKey);
             $this->setTranslateAttributes($attributes);
         }
         return $this->_translate_attributes;
