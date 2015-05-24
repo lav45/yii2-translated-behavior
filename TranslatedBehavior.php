@@ -111,14 +111,6 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @return string|ActiveRecord
-     */
-    protected function getRelationClass()
-    {
-        return $this->getRelation()->modelClass;
-    }
-
-    /**
      * Returns the translation model for the specified language.
      * @param string|null $language
      * @return ActiveRecord
@@ -134,7 +126,7 @@ class TranslatedBehavior extends Behavior
             return $translations[$language];
         }
 
-        $class = $this->getRelationClass();
+        $class = $this->getRelation()->modelClass;
         /** @var ActiveRecord $translation */
         $translation = new $class();
         $sourceLanguage = $this->getSourceLanguage();
@@ -151,7 +143,7 @@ class TranslatedBehavior extends Behavior
     public function afterValidate()
     {
         /** @var ActiveRecord $class */
-        $class = $this->getRelationClass();
+        $class = $this->getRelation()->modelClass;
         $columns = array_keys($class::getTableSchema()->columns);
         $ignore_columns = array_keys($this->getRelation()->link);
         $attributes = array_diff($columns, $ignore_columns);
@@ -182,7 +174,7 @@ class TranslatedBehavior extends Behavior
     {
         if ($this->_translate_attributes === null && $this->owner !== null) {
             /** @var ActiveRecord $class */
-            $class = $this->getRelationClass();
+            $class = $this->getRelation()->modelClass;
             $columns = array_keys($class::getTableSchema()->columns);
             $primaryKey = $class::getTableSchema()->primaryKey;
             $attributes = array_diff($columns, $primaryKey);
