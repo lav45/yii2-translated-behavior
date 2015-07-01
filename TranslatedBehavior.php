@@ -13,6 +13,7 @@ use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\validators\Validator;
+use yii\validators\RequiredValidator;
 
 /**
  * Class TranslatedBehavior
@@ -142,24 +143,28 @@ class TranslatedBehavior extends Behavior
 
     public function afterValidate()
     {
-        /** @var ActiveRecord $class */
-        $class = $this->getRelation()->modelClass;
-        $columns = array_keys($class::getTableSchema()->columns);
-        $ignore_columns = array_keys($this->getRelation()->link);
-        $attributes = array_diff($columns, $ignore_columns);
+        $translation = $this->getTranslation();
 
-        foreach ($this->getTranslateRelations() as $item) {
-            if ($item->validate($attributes) === false) {
-                $this->owner->addErrors($item->getErrors());
+        if ($this->owner->getIsNewRecord()) {
+            $ignore_columns = array_keys($this->getRelation()->link);
+            foreach ($translation->getValidators() as $validator) {
+                if ($validator instanceof RequiredValidator) {
+                    if (!empty(array_intersect($validator->attributes, $ignore_columns))) {
+                        $validator->attributes = array_diff($validator->attributes, $ignore_columns);
+                        break;
+                    }
+                }
             }
+        }
+
+        if ($translation->validate() === false) {
+            $this->owner->addErrors($translation->getErrors());
         }
     }
 
     public function afterSave()
     {
-        foreach ($this->getTranslateRelations() as $translation) {
-            $this->owner->link('currentTranslate', $translation);
-        }
+        $this->owner->link('currentTranslate', $this->getTranslation());
     }
 
     public function beforeDelete()
@@ -230,7 +235,7 @@ class TranslatedBehavior extends Behavior
     public function __set($name, $value)
     {
         if ($this->isAttribute($name)) {
-            $this->getTranslation()->setAttribute($name, $value);
+            $this->getTranslation()->$name = $value;
         } else {
             parent::__set($name, $value);
         }
