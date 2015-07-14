@@ -38,28 +38,28 @@ class TranslatedBehavior extends Behavior
     /**
      * @var string current translate language
      */
-    private $_translate;
+    private $_language;
 
     /**
      * @param string $language
      * @return ActiveRecord
      */
-    public function setTranslate($language)
+    public function setLanguage($language)
     {
         if (!empty($language)) {
-            $this->_translate = $language;
+            $this->_language = $language;
         }
     }
 
     /**
      * @return string
      */
-    public function getTranslate()
+    public function getLanguage()
     {
-        if ($this->_translate === null) {
-            $this->_translate = substr(Yii::$app->language, 0, 2);
+        if ($this->_language === null) {
+            $this->_language = substr(Yii::$app->language, 0, 2);
         }
-        return $this->_translate;
+        return $this->_language;
     }
 
     /**
@@ -119,7 +119,7 @@ class TranslatedBehavior extends Behavior
     public function getTranslation($language = null)
     {
         if ($language === null) {
-            $language = $this->getTranslate();
+            $language = $this->getLanguage();
         }
 
         $translations = $this->getTranslateRelations();
@@ -248,7 +248,7 @@ class TranslatedBehavior extends Behavior
     public function hasTranslate($language = null)
     {
         if ($language === null) {
-            $language = $this->getTranslate();
+            $language = $this->getLanguage();
         }
         return isset($this->owner->hasTranslate[$language]);
     }
@@ -258,7 +258,7 @@ class TranslatedBehavior extends Behavior
      */
     public function isSourceLanguage()
     {
-        return $this->getTranslate() === $this->getSourceLanguage();
+        return $this->getLanguage() === $this->getSourceLanguage();
     }
 
     /**
@@ -282,7 +282,7 @@ class TranslatedBehavior extends Behavior
      */
     public function getCurrentTranslate()
     {
-        $langList[$this->getTranslate()] = true;
+        $langList[$this->getLanguage()] = true;
         $langList[$this->getSourceLanguage()] = true;
         $langList = array_keys($langList);
 
