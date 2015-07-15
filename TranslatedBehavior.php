@@ -12,7 +12,6 @@ use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
-use yii\validators\RequiredValidator;
 
 /**
  * Class TranslatedBehavior
@@ -76,7 +75,6 @@ class TranslatedBehavior extends Behavior
     {
         return [
             ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
-            ActiveRecord::EVENT_AFTER_VALIDATE => 'afterValidate',
             ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
         ];
@@ -131,27 +129,6 @@ class TranslatedBehavior extends Behavior
         $this->owner->populateRelation('currentTranslate', $translations);
 
         return $translation;
-    }
-
-    public function afterValidate()
-    {
-        $translation = $this->getTranslation();
-
-        if ($this->owner->getIsNewRecord()) {
-            $ignore_columns = array_keys($this->getRelation()->link);
-            foreach ($translation->getValidators() as $validator) {
-                if ($validator instanceof RequiredValidator) {
-                    if (!empty(array_intersect($validator->attributes, $ignore_columns))) {
-                        $validator->attributes = array_diff($validator->attributes, $ignore_columns);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if ($translation->validate() === false) {
-            $this->owner->addErrors($translation->getErrors());
-        }
     }
 
     public function afterSave()
