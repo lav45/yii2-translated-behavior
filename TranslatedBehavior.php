@@ -12,7 +12,6 @@ use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
-use yii\validators\Validator;
 use yii\validators\RequiredValidator;
 
 /**
@@ -76,18 +75,11 @@ class TranslatedBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_INIT => 'initEvent',
             ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
             ActiveRecord::EVENT_AFTER_VALIDATE => 'afterValidate',
             ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
         ];
-    }
-
-    public function initEvent()
-    {
-        $keys = array_keys($this->getTranslateAttributes());
-        $this->owner->validators[] = Validator::createValidator('safe', $this->owner, $keys);
     }
 
     /**
