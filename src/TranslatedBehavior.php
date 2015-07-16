@@ -146,14 +146,6 @@ class TranslatedBehavior extends Behavior
      */
     public function getTranslateAttributes()
     {
-        if ($this->_translate_attributes === null && $this->owner !== null) {
-            /** @var ActiveRecord $class */
-            $class = $this->getRelation()->modelClass;
-            $columns = array_keys($class::getTableSchema()->columns);
-            $primaryKey = $class::getTableSchema()->primaryKey;
-            $attributes = array_diff($columns, $primaryKey);
-            $this->setTranslateAttributes($attributes);
-        }
         return $this->_translate_attributes;
     }
 
