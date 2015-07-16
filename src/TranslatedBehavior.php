@@ -39,36 +39,6 @@ class TranslatedBehavior extends Behavior
     private $_language;
 
     /**
-     * @param string $language
-     * @return ActiveRecord
-     */
-    public function setLanguage($language)
-    {
-        if (!empty($language)) {
-            $this->_language = $language;
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getLanguage()
-    {
-        if ($this->_language === null) {
-            $this->_language = substr(Yii::$app->language, 0, 2);
-        }
-        return $this->_language;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSourceLanguage()
-    {
-        return substr(Yii::$app->sourceLanguage, 0, 2);
-    }
-
-    /**
      * @inheritdoc
      */
     public function events()
@@ -78,6 +48,16 @@ class TranslatedBehavior extends Behavior
             ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
             ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
         ];
+    }
+
+    public function afterSave()
+    {
+        $this->owner->link('currentTranslate', $this->getTranslation());
+    }
+
+    public function beforeDelete()
+    {
+        $this->owner->unlinkAll($this->translateRelation, true);
     }
 
     /**
@@ -131,16 +111,6 @@ class TranslatedBehavior extends Behavior
         return $translation;
     }
 
-    public function afterSave()
-    {
-        $this->owner->link('currentTranslate', $this->getTranslation());
-    }
-
-    public function beforeDelete()
-    {
-        $this->owner->unlinkAll($this->translateRelation, true);
-    }
-
     /**
      * @return string[]
      */
@@ -167,7 +137,7 @@ class TranslatedBehavior extends Behavior
      */
     public function canGetProperty($name, $checkVars = true)
     {
-        return $this->isAttribute($name) ? : parent::canGetProperty($name, $checkVars);
+        return $this->isAttribute($name) ?: parent::canGetProperty($name, $checkVars);
     }
 
     /**
@@ -175,7 +145,7 @@ class TranslatedBehavior extends Behavior
      */
     public function canSetProperty($name, $checkVars = true)
     {
-        return $this->isAttribute($name) ? : parent::canSetProperty($name, $checkVars);
+        return $this->isAttribute($name) ?: parent::canSetProperty($name, $checkVars);
     }
 
     /**
@@ -200,6 +170,36 @@ class TranslatedBehavior extends Behavior
         } else {
             parent::__set($name, $value);
         }
+    }
+
+    /**
+     * @param string $language
+     * @return ActiveRecord
+     */
+    public function setLanguage($language)
+    {
+        if (!empty($language)) {
+            $this->_language = $language;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        if ($this->_language === null) {
+            $this->_language = substr(Yii::$app->language, 0, 2);
+        }
+        return $this->_language;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSourceLanguage()
+    {
+        return substr(Yii::$app->sourceLanguage, 0, 2);
     }
 
     /**
