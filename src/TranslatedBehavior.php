@@ -102,7 +102,10 @@ class TranslatedBehavior extends Behavior
         $translation = new $class();
         $sourceLanguage = $this->getSourceLanguage();
         if (isset($translations[$sourceLanguage])) {
-            $translation->setAttributes($translations[$sourceLanguage]->attributes, false);
+            $attributes = $translations[$sourceLanguage] instanceof ActiveRecord ?
+                $translations[$sourceLanguage]->attributes :
+                $translations[$sourceLanguage];
+            $translation->setAttributes($attributes, false);
         }
         $translation->setAttribute($this->languageAttribute, $language);
         $translations[$language] = $translation;
