@@ -16,8 +16,9 @@ use yii\db\ActiveQuery;
  * @package lav45\translate
  *
  * @property ActiveRecord[] $currentTranslate
- * @property ActiveRecord[] $hasTranslate
+ * @property array $hasTranslate
  * @property string[] $translateAttributes
+ * @property string $language
  *
  * @method ActiveQuery getCurrentTranslate()
  * @method ActiveQuery getHasTranslate()
