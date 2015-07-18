@@ -27,7 +27,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     public $languageAttribute = 'lang_id';
 
-    public $ajax = true;
+    public $ajax = false;
 
     protected function initDefaultButtons()
     {
