@@ -117,7 +117,7 @@ class TranslatedBehavior extends Behavior
     /**
      * @return string[]
      */
-    public function getTranslateAttributes()
+    protected function getTranslateAttributes()
     {
         return $this->_translate_attributes;
     }
@@ -130,6 +130,10 @@ class TranslatedBehavior extends Behavior
         $this->_translate_attributes = array_flip((array)$value);
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
     protected function isAttribute($name)
     {
         return isset($this->getTranslateAttributes()[$name]);

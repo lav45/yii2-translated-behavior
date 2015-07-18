@@ -17,12 +17,10 @@ use yii\db\ActiveQuery;
  *
  * @property ActiveRecord[] $currentTranslate
  * @property array $hasTranslate
- * @property string[] $translateAttributes
  * @property string $language
  *
  * @method ActiveQuery getCurrentTranslate()
  * @method ActiveQuery getHasTranslate()
- * @method string[] getTranslateAttributes()
  * @method setTranslateAttributes($value)
  * @method string getLanguage()
  * @method setLanguage($language)
