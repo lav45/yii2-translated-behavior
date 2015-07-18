@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <post_lang post_id="1" lang_id="en" title="new title" description="description the first post" />
+    <post_lang post_id="1" lang_id="ru" title="заголовок первой страницы" description="описание первого поста" />
+    <post_lang post_id="2" lang_id="en" title="title of the second post" description="description of the second post" />
+
+</dataset>
