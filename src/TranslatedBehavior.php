@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
  * Class TranslatedBehavior
  * @package lav45\translate\TranslatedBehavior
  *
- * @property ActiveRecord|TranslatedTrait $owner
+ * @property ActiveRecord $owner
  */
 class TranslatedBehavior extends Behavior
 {
@@ -70,7 +70,7 @@ class TranslatedBehavior extends Behavior
             $translations = ArrayHelper::index($this->owner->{$this->translateRelation}, $this->languageAttribute);
             $this->owner->populateRelation('currentTranslate', $translations);
         }
-        return $this->owner->currentTranslate;
+        return $this->owner['currentTranslate'];
     }
 
     /**
@@ -105,7 +105,7 @@ class TranslatedBehavior extends Behavior
             $attributes = $translations[$sourceLanguage] instanceof ActiveRecord ?
                 $translations[$sourceLanguage]->attributes :
                 $translations[$sourceLanguage];
-            $translation->setAttributes($attributes, false);
+            $translation->setAttributes((array)$attributes, false);
         }
         $translation->setAttribute($this->languageAttribute, $language);
         $translations[$language] = $translation;
@@ -218,7 +218,7 @@ class TranslatedBehavior extends Behavior
         if ($language === null) {
             $language = $this->getLanguage();
         }
-        return isset($this->owner->hasTranslate[$language]);
+        return isset($this->owner['hasTranslate'][$language]);
     }
 
     /**
@@ -250,9 +250,8 @@ class TranslatedBehavior extends Behavior
      */
     public function getCurrentTranslate()
     {
-        $langList[$this->getLanguage()] = true;
-        $langList[$this->getSourceLanguage()] = true;
-        $langList = array_keys($langList);
+        $langList = [$this->getLanguage(), $this->getSourceLanguage()];
+        $langList = array_keys(array_flip($langList));
 
         return $this->getRelation()
             ->where([$this->languageAttribute => $langList])
