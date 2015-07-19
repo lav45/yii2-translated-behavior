@@ -13,10 +13,23 @@ matrix:
 install:
   - composer self-update
   - composer --version
-  - composer global require "fxp/composer-asset-plugin:1.0.0"
+  - composer global require "fxp/composer-asset-plugin:~1.0.0"
   - composer require "yiisoft/yii2:@dev" --prefer-dist --no-interaction
   - composer install --prefer-dist --no-interaction
   - composer show -i
 
+before_script:
+  - |
+    if [ $TRAVIS_PHP_VERSION = '5.6' ]; then
+      PHPUNIT_FLAGS="--coverage-clover=coverage.clover"
+    fi
+
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --verbose $PHPUNIT_FLAGS
+
+after_script:
+  - |
+    if [ $TRAVIS_PHP_VERSION = '5.6' ]; then
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    fi
