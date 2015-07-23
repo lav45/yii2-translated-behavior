@@ -17,13 +17,13 @@ Translated Behavior это Yii2 расширение для ActiveRecord мод�
 Можно установить из консоли
 
 ```
-$ php composer.phar require lav45/yii2-translated-behavior "~1.0"
+$ php composer.phar require lav45/yii2-translated-behavior "~1.2.0"
 ```
 
 или добавить
 
 ```
-"lav45/yii2-translated-behavior": "~1.0"
+"lav45/yii2-translated-behavior": "~1.2.0"
 ```
 
 в ```require``` разделе в `composer.json` файл.
