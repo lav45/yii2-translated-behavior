@@ -338,6 +338,9 @@ use common\models\Lang;
 return [
     'components' => [
         'urlManager' => [
+            'ruleConfig' => [
+                'class' => 'lav45\translate\UrlRule',
+            ],
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
