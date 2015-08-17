@@ -338,14 +338,20 @@ use common\models\Lang;
 return [
     'components' => [
         'urlManager' => [
-            'ruleConfig' => [
-                'class' => 'lav45\translate\UrlRule',
-            ],
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '<_lang:' . Lang::PATTERN_ID . '?>/<id:\d+>'  => 'post/view',
-                '<_lang:' . Lang::PATTERN_ID . '?>'  => 'post/index',
+                '' => 'post/index',
+                [
+                    'class' => 'lav45\translate\UrlRule',
+                    'pattern' => '<_lang:' . Lang::PATTERN_ID . '>/<id:\d+>',
+                    'route' => 'post/view',
+                ],
+                [
+                    'class' => 'lav45\translate\UrlRule',
+                    'pattern' => '<_lang:' . Lang::PATTERN_ID . '>',
+                    'route' => 'post/index',
+                ]
             ],
         ],
     ],
