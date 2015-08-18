@@ -10,14 +10,39 @@ namespace lav45\translate;
 
 use Yii;
 
+/**
+ * Class UrlRule
+ * @package lav45\translate
+ */
 class UrlRule extends \yii\web\UrlRule
 {
+    /**
+     * @var string
+     */
     public $languageParam = '_lang';
+    /**
+     * @var string
+     */
+    private $_language;
 
+    /**
+     * @return string
+     */
+    public function getLanguage()
+    {
+        if ($this->_language === null) {
+            $this->_language = substr(Yii::$app->language, 0, 2);
+        }
+        return $this->_language;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function createUrl($manager, $route, $params)
     {
         if (!isset($params[$this->languageParam])) {
-            $params[$this->languageParam] = substr(Yii::$app->language, 0, 2);
+            $params[$this->languageParam] = $this->getLanguage();
         }
         return parent::createUrl($manager, $route, $params);
     }

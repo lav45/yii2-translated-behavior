@@ -17,18 +17,34 @@ use yii\helpers\Html;
  */
 class ActionColumn extends \yii\grid\ActionColumn
 {
+    /**
+     * @var string
+     */
     public $header = 'Translate';
-
+    /**
+     * @var string
+     */
     public $template = '';
-
+    /**
+     * @var array
+     */
     public $buttons = [];
-
+    /**
+     * @var array
+     */
     public $languages = [];
-
+    /**
+     * @var string
+     */
     public $languageAttribute = 'lang_id';
-
+    /**
+     * @var bool
+     */
     public $ajax = false;
 
+    /**
+     * @inheritdoc
+     */
     protected function initDefaultButtons()
     {
         foreach ($this->languages as $lang_id => $lang) {
