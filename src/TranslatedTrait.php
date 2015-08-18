@@ -9,24 +9,12 @@
 namespace lav45\translate;
 
 use yii\db\ActiveRecord;
-use yii\db\ActiveQuery;
 
 /**
  * Class TranslatedTrait
  * @package lav45\translate
  *
- * @property ActiveRecord[] $currentTranslate
- * @property array $hasTranslate
- * @property string $language
- *
- * @method ActiveQuery getCurrentTranslate()
- * @method ActiveQuery getHasTranslate()
- * @method setTranslateAttributes($value)
- * @method string getLanguage()
- * @method setLanguage($language)
- * @method ActiveRecord getTranslation($language = null)
- * @method boolean hasTranslate($language = null)
- * @method boolean isSourceLanguage()
+ * @mixin TranslatedBehavior
  */
 trait TranslatedTrait
 {

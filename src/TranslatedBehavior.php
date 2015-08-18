@@ -17,6 +17,9 @@ use yii\helpers\ArrayHelper;
  * Class TranslatedBehavior
  * @package lav45\translate\TranslatedBehavior
  *
+ * @property ActiveRecord[] $currentTranslate
+ * @property array $hasTranslate
+ * @property string $language
  * @property ActiveRecord $owner
  */
 class TranslatedBehavior extends Behavior
@@ -103,9 +106,8 @@ class TranslatedBehavior extends Behavior
         $sourceLanguage = $this->getSourceLanguage();
         if (isset($translations[$sourceLanguage])) {
             $attributes = $translations[$sourceLanguage] instanceof ActiveRecord ?
-                $translations[$sourceLanguage]->attributes :
-                $translations[$sourceLanguage];
-            $translation->setAttributes((array)$attributes, false);
+                $translations[$sourceLanguage]->attributes : $translations[$sourceLanguage];
+            $translation->setAttributes((array) $attributes, false);
         }
         $translation->setAttribute($this->languageAttribute, $language);
         $translations[$language] = $translation;
@@ -127,7 +129,7 @@ class TranslatedBehavior extends Behavior
      */
     public function setTranslateAttributes($value)
     {
-        $this->_translate_attributes = array_flip((array)$value);
+        $this->_translate_attributes = array_flip((array) $value);
     }
 
     /**

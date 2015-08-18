@@ -31,11 +31,11 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     protected function initDefaultButtons()
     {
-        foreach($this->languages as $lang_id => $lang) {
+        foreach ($this->languages as $lang_id => $lang) {
             $name = "update-$lang_id";
             $this->template .= ' {' . $name . '}';
             if (!isset($this->buttons[$name])) {
-                $this->buttons[$name] = function () use ($lang, $lang_id) {
+                $this->buttons[$name] = function() use ($lang, $lang_id) {
                     /** @var \yii\db\ActiveRecord|TranslatedTrait $model */
                     $model = func_get_arg(1);
                     $key = func_get_arg(2);
