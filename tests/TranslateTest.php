@@ -101,7 +101,9 @@ class TranslateTest extends DatabaseTestCase
     {
         /** @var Post $model */
         $model = Post::findOne(1);
+        $this->assertTrue($model->isSourceLanguage());
         $model->setLanguage('ru');
+        $this->assertFalse($model->isSourceLanguage());
         $model->title = 'new title';
 
         $this->assertTrue($model->save(false));
@@ -118,6 +120,9 @@ class TranslateTest extends DatabaseTestCase
         $data = array_keys($model->hasTranslate);
         $expectedData = ['en', 'ru'];
         $this->assertEquals($data, $expectedData);
+
+        $this->assertTrue($model->hasTranslate('en'));
+        $this->assertFalse($model->hasTranslate('fr'));
     }
 
     public function testCurrentTranslateRelations()
@@ -131,6 +136,7 @@ class TranslateTest extends DatabaseTestCase
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en', 'ru'];
         $this->assertEquals($data, $expectedData);
+        $this->assertTrue($model->hasTranslate());
 
         Yii::$app->language = 'fr-FR';
 
@@ -141,5 +147,19 @@ class TranslateTest extends DatabaseTestCase
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en'];
         $this->assertEquals($data, $expectedData);
+        $this->assertFalse($model->hasTranslate());
+    }
+
+    public function testLoadTranslateWithoutCurrentTranslate()
+    {
+        /** @var Post $model */
+        $model = Post::find()
+            ->with(['postLangs'])
+            ->where(['id' => 1])
+            ->one();
+
+        $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs']);
+        $this->assertEquals($model->title, 'title of the first post');
+        $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs', 'currentTranslate']);
     }
 }
