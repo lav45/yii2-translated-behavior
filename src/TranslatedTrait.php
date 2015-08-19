@@ -21,7 +21,7 @@ trait TranslatedTrait
     public function transactions()
     {
         return [
-            ActiveRecord::SCENARIO_DEFAULT => ActiveRecord::OP_INSERT | ActiveRecord::OP_UPDATE,
+            ActiveRecord::SCENARIO_DEFAULT => ActiveRecord::OP_ALL,
         ];
     }
 }
