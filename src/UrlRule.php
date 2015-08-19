@@ -21,7 +21,8 @@ class UrlRule extends \yii\web\UrlRule
      */
     public $languageParam = '_lang';
     /**
-     * @var string
+     * @var string set this language if exist in url params. If not set, it will use the value of
+     * [[\yii\base\Application::language]].
      */
     private $_language;
 

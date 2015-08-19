@@ -102,7 +102,7 @@ class TranslateTest extends DatabaseTestCase
         /** @var Post $model */
         $model = Post::findOne(1);
         $this->assertTrue($model->isSourceLanguage());
-        $model->setLanguage('ru');
+        $model->language = 'ru';
         $this->assertFalse($model->isSourceLanguage());
         $model->title = 'new title';
 

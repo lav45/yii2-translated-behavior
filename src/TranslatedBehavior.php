@@ -19,7 +19,6 @@ use yii\helpers\ArrayHelper;
  *
  * @property ActiveRecord[] $currentTranslate
  * @property array $hasTranslate
- * @property string $language
  * @property ActiveRecord $owner
  */
 class TranslatedBehavior extends Behavior
@@ -37,9 +36,29 @@ class TranslatedBehavior extends Behavior
      */
     private $_translate_attributes;
     /**
-     * @var string current translate language
+     * @var string the current translate language. If not set, it will use the value of
+     * [[\yii\base\Application::language]].
      */
-    private $_language;
+    public $language;
+    /**
+     * @var string the language that the original messages are in. If not set, it will use the value of
+     * [[\yii\base\Application::sourceLanguage]].
+     */
+    public $sourceLanguage;
+
+    /**
+     * Initializes this behavior.
+     */
+    public function init()
+    {
+        parent::init();
+        if ($this->language === null) {
+            $this->language = substr(Yii::$app->language, 0, 2);
+        }
+        if ($this->sourceLanguage === null) {
+            $this->sourceLanguage = substr(Yii::$app->sourceLanguage, 0, 2);
+        }
+    }
 
     /**
      * @inheritdoc
@@ -91,9 +110,7 @@ class TranslatedBehavior extends Behavior
      */
     public function getTranslation($language = null)
     {
-        if ($language === null) {
-            $language = $this->getLanguage();
-        }
+        $language = $language ?: $this->language;
 
         $translations = $this->getTranslateRelations();
         if (isset($translations[$language])) {
@@ -103,10 +120,9 @@ class TranslatedBehavior extends Behavior
         $class = $this->getRelation()->modelClass;
         /** @var ActiveRecord $translation */
         $translation = new $class();
-        $sourceLanguage = $this->getSourceLanguage();
-        if (isset($translations[$sourceLanguage])) {
-            $attributes = $translations[$sourceLanguage] instanceof ActiveRecord ?
-                $translations[$sourceLanguage]->attributes : $translations[$sourceLanguage];
+        if (isset($translations[$this->sourceLanguage])) {
+            $attributes = $translations[$this->sourceLanguage] instanceof ActiveRecord ?
+                $translations[$this->sourceLanguage]->attributes : $translations[$this->sourceLanguage];
             $translation->setAttributes((array) $attributes, false);
         }
         $translation->setAttribute($this->languageAttribute, $language);
@@ -182,44 +198,12 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @param string $language
-     * @return ActiveRecord
-     */
-    public function setLanguage($language)
-    {
-        if (!empty($language)) {
-            $this->_language = $language;
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getLanguage()
-    {
-        if ($this->_language === null) {
-            $this->_language = substr(Yii::$app->language, 0, 2);
-        }
-        return $this->_language;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSourceLanguage()
-    {
-        return substr(Yii::$app->sourceLanguage, 0, 2);
-    }
-
-    /**
      * @param null|string $language
      * @return bool
      */
     public function hasTranslate($language = null)
     {
-        if ($language === null) {
-            $language = $this->getLanguage();
-        }
+        $language = $language ?: $this->language;
         return isset($this->owner['hasTranslate'][$language]);
     }
 
@@ -228,7 +212,7 @@ class TranslatedBehavior extends Behavior
      */
     public function isSourceLanguage()
     {
-        return $this->getLanguage() === $this->getSourceLanguage();
+        return $this->language === $this->sourceLanguage;
     }
 
     /**
@@ -252,7 +236,7 @@ class TranslatedBehavior extends Behavior
      */
     public function getCurrentTranslate()
     {
-        $langList = [$this->getLanguage(), $this->getSourceLanguage()];
+        $langList = [$this->language, $this->sourceLanguage];
         $langList = array_keys(array_flip($langList));
 
         return $this->getRelation()
