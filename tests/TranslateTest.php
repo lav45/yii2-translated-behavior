@@ -41,8 +41,6 @@ class TranslateTest extends DatabaseTestCase
             $posts[$key] = $post->toArray();
         }
 
-
-
         $data = [
             0 => [
                 'id' => 1,
