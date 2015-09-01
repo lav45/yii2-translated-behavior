@@ -34,7 +34,7 @@ class TranslatedBehavior extends Behavior
     /**
      * @var string[] the list of translateAttributes to be translated
      */
-    private $_translate_attributes;
+    public $translateAttributes = [];
     /**
      * @var string the current translate language. If not set, it will use the value of
      * [[\yii\base\Application::language]].
@@ -57,6 +57,9 @@ class TranslatedBehavior extends Behavior
         }
         if ($this->sourceLanguage === null) {
             $this->sourceLanguage = substr(Yii::$app->sourceLanguage, 0, 2);
+        }
+        if (!empty($this->translateAttributes)) {
+            $this->translateAttributes = array_flip((array)$this->translateAttributes);
         }
     }
 
@@ -133,28 +136,21 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @return string[]
-     */
-    protected function getTranslateAttributes()
-    {
-        return $this->_translate_attributes;
-    }
-
-    /**
-     * @param array|string $value
-     */
-    public function setTranslateAttributes($value)
-    {
-        $this->_translate_attributes = array_flip((array) $value);
-    }
-
-    /**
      * @param string $name
      * @return bool
      */
     protected function isAttribute($name)
     {
-        return isset($this->getTranslateAttributes()[$name]);
+        return isset($this->translateAttributes[$name]);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function getAttributeName($name)
+    {
+        return is_integer($this->translateAttributes[$name]) ? $name : $this->translateAttributes[$name];
     }
 
     /**
@@ -179,7 +175,8 @@ class TranslatedBehavior extends Behavior
     public function __get($name)
     {
         if ($this->isAttribute($name)) {
-            return ArrayHelper::getValue($this->getTranslation(), $name);
+            $name = $this->getAttributeName($name);
+            return $this->getTranslation()[$name];
         } else {
             return parent::__get($name);
         }
@@ -191,6 +188,7 @@ class TranslatedBehavior extends Behavior
     public function __set($name, $value)
     {
         if ($this->isAttribute($name)) {
+            $name = $this->getAttributeName($name);
             $this->getTranslation()->$name = $value;
         } else {
             parent::__set($name, $value);
