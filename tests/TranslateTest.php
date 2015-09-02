@@ -60,7 +60,7 @@ class TranslateTest extends DatabaseTestCase
     public function testCreatePost()
     {
         $model = new Post([
-            'title' => 'test for the create new post',
+            'titleLang' => 'test for the create new post',
             'description' => 'description for the create new post',
         ]);
 
@@ -86,7 +86,7 @@ class TranslateTest extends DatabaseTestCase
     {
         /** @var Post $model */
         $model = Post::findOne(1);
-        $model->title = 'new title';
+        $model->titleLang = 'new title';
 
         $this->assertTrue($model->save(false));
 
@@ -102,7 +102,7 @@ class TranslateTest extends DatabaseTestCase
         $this->assertTrue($model->isSourceLanguage());
         $model->language = 'ru';
         $this->assertFalse($model->isSourceLanguage());
-        $model->title = 'new title';
+        $model->titleLang = 'new title';
 
         $this->assertTrue($model->save(false));
 
@@ -157,7 +157,7 @@ class TranslateTest extends DatabaseTestCase
             ->one();
 
         $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs']);
-        $this->assertEquals($model->title, 'title of the first post');
+        $this->assertEquals($model->titleLang, 'title of the first post');
         $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs', 'currentTranslate']);
     }
 }

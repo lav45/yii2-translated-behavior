@@ -14,11 +14,14 @@ use lav45\translate\TranslatedBehavior;
  * @property PostLang[] $postLangs
  *
  * @property string $title
+ * @property string $titleLang
  * @property string $description
  */
 class Post extends ActiveRecord
 {
     use TranslatedTrait;
+
+    public $title;
 
     /**
      * @inheritdoc
@@ -32,7 +35,7 @@ class Post extends ActiveRecord
     {
         $fields = parent::fields();
 
-        $fields['title'] = 'title';
+        $fields['title'] = 'titleLang';
         $fields['description'] = 'description';
 
         return $fields;
@@ -47,6 +50,10 @@ class Post extends ActiveRecord
             [['title'], 'trim'],
             [['title'], 'required'],
             [['title'], 'string', 'max' => 128],
+
+            [['titleLang'], 'trim'],
+            [['titleLang'], 'required'],
+            [['titleLang'], 'string', 'max' => 128],
 
             [['description'], 'required'],
             [['description'], 'string'],
@@ -63,7 +70,7 @@ class Post extends ActiveRecord
                 'class' => TranslatedBehavior::className(),
                 'translateRelation' => 'postLangs',
                 'translateAttributes' => [
-                    'title',
+                    'titleLang' => 'title',
                     'description',
                 ]
             ]

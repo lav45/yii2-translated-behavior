@@ -58,9 +58,15 @@ class TranslatedBehavior extends Behavior
         if ($this->sourceLanguage === null) {
             $this->sourceLanguage = substr(Yii::$app->sourceLanguage, 0, 2);
         }
-        if (!empty($this->translateAttributes)) {
-            $this->translateAttributes = array_flip((array)$this->translateAttributes);
+
+        $attributes = [];
+        foreach($this->translateAttributes as $key => $value) {
+            if (is_int($key)) {
+                $key = $value;
+            }
+            $attributes[$key] = $value;
         }
+        $this->translateAttributes = $attributes;
     }
 
     /**
@@ -145,15 +151,6 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @param string $name
-     * @return string
-     */
-    protected function getAttributeName($name)
-    {
-        return is_integer($this->translateAttributes[$name]) ? $name : $this->translateAttributes[$name];
-    }
-
-    /**
      * @inheritdoc
      */
     public function canGetProperty($name, $checkVars = true)
@@ -175,7 +172,7 @@ class TranslatedBehavior extends Behavior
     public function __get($name)
     {
         if ($this->isAttribute($name)) {
-            $name = $this->getAttributeName($name);
+            $name = $this->translateAttributes[$name];
             return $this->getTranslation()[$name];
         } else {
             return parent::__get($name);
@@ -188,7 +185,7 @@ class TranslatedBehavior extends Behavior
     public function __set($name, $value)
     {
         if ($this->isAttribute($name)) {
-            $name = $this->getAttributeName($name);
+            $name = $this->translateAttributes[$name];
             $this->getTranslation()->$name = $value;
         } else {
             parent::__set($name, $value);
