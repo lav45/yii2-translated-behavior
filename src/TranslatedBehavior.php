@@ -193,7 +193,7 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @param null|string $language
+     * @param string $language
      * @return bool
      */
     public function hasTranslate($language = null)
@@ -208,6 +208,14 @@ class TranslatedBehavior extends Behavior
     public function isSourceLanguage()
     {
         return $this->language === $this->sourceLanguage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTranslated()
+    {
+        return $this->isSourceLanguage() === false && $this->getTranslation()->getIsNewRecord() === false;
     }
 
     /**

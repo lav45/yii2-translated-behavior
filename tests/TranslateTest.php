@@ -111,6 +111,19 @@ class TranslateTest extends DatabaseTestCase
         $this->assertDataSetsEqual($expectedDataSet, $dataSet);
     }
 
+    public function testAddTranslate()
+    {
+        /** @var Post $model */
+        $model = Post::findOne(2);
+        $this->assertFalse($model->isTranslated());
+
+        $this->assertTrue($model->getTranslation('ru')->save());
+        $this->assertFalse($model->isTranslated());
+
+        $model->language = 'ru';
+        $this->assertTrue($model->isTranslated());
+    }
+
     public function testHasTranslateRelations()
     {
         /** @var Post $model */
