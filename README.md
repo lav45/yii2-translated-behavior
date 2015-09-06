@@ -326,7 +326,7 @@ backend/view/post/index.php
  * @var $model common\models\Page
  */
 
-$this->title = 'Create Post ( ' . $model->getLanguage() . ' )';
+$this->title = 'Create Post ( ' . $model->language . ' )';
 ```
 
 ### Frontend
