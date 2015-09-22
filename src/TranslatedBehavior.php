@@ -61,7 +61,7 @@ class TranslatedBehavior extends Behavior
         }
 
         $attributes = [];
-        foreach($this->translateAttributes as $key => $value) {
+        foreach ($this->translateAttributes as $key => $value) {
             $attributes[is_integer($key) ? $value : $key] = $value;
         }
         $this->translateAttributes = $attributes;
@@ -154,8 +154,8 @@ class TranslatedBehavior extends Behavior
     public function canGetProperty($name, $checkVars = true)
     {
         return $this->isAttribute($name) ||
-            parent::canGetProperty($name, $checkVars) ||
-            $this->getTranslation()->canGetProperty($name, $checkVars);
+        parent::canGetProperty($name, $checkVars) ||
+        $this->getTranslation()->canGetProperty($name, $checkVars);
     }
 
     /**
@@ -164,8 +164,8 @@ class TranslatedBehavior extends Behavior
     public function canSetProperty($name, $checkVars = true)
     {
         return $this->isAttribute($name) ||
-            parent::canSetProperty($name, $checkVars) ||
-            $this->getTranslation()->canSetProperty($name, $checkVars);
+        parent::canSetProperty($name, $checkVars) ||
+        $this->getTranslation()->canSetProperty($name, $checkVars);
     }
 
     /**
