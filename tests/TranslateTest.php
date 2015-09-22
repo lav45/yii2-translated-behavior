@@ -173,4 +173,31 @@ class TranslateTest extends DatabaseTestCase
         $this->assertEquals($model->titleLang, 'title of the first post');
         $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs', 'currentTranslate']);
     }
+
+    public function testCallTranslateMethod()
+    {
+        $model = new Post;
+
+        $this->assertEquals($model->testMethod(), 'OK');
+        $this->assertEquals($model->testProperty, 'OK');
+
+        $expectedData = uniqid();
+        $model->testProperty = $expectedData;
+        $this->assertEquals($model->testProperty, $expectedData);
+
+        $expectedData = uniqid();
+        $model->data = $expectedData;
+        $this->assertEquals($model->data, $expectedData);
+
+        $this->assertEquals($model->modelTestMethod(), 'OK');
+        $this->assertEquals($model->modelTestProperty, 'OK');
+
+        $expectedData = uniqid();
+        $model->modelTestProperty = $expectedData;
+        $this->assertEquals($model->modelTestProperty, $expectedData);
+
+        $expectedData = uniqid();
+        $model->modelData = $expectedData;
+        $this->assertEquals($model->modelData, $expectedData);
+    }
 }

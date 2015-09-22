@@ -11,9 +11,32 @@ use yii\db\ActiveRecord;
  * @property integer $lang_id
  * @property string $title
  * @property string $description
+ *
+ * @property string $modelData
+ *
+ * @mixin TestBehavior
  */
 class PostLang extends ActiveRecord
 {
+    private $_model_data;
+
+    public $modelTestProperty = 'OK';
+
+    public function modelTestMethod()
+    {
+        return 'OK';
+    }
+
+    public function getModelData()
+    {
+        return $this->_model_data;
+    }
+
+    public function setModelData($value)
+    {
+        $this->_model_data = $value;
+    }
+
     /**
      * @inheritdoc
      */
@@ -36,6 +59,13 @@ class PostLang extends ActiveRecord
 
             [['description'], 'required'],
             [['description'], 'string'],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            TestBehavior::className()
         ];
     }
 }

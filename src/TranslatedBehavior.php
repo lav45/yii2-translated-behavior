@@ -62,10 +62,7 @@ class TranslatedBehavior extends Behavior
 
         $attributes = [];
         foreach($this->translateAttributes as $key => $value) {
-            if (is_int($key)) {
-                $key = $value;
-            }
-            $attributes[$key] = $value;
+            $attributes[is_integer($key) ? $value : $key] = $value;
         }
         $this->translateAttributes = $attributes;
     }
@@ -156,7 +153,9 @@ class TranslatedBehavior extends Behavior
      */
     public function canGetProperty($name, $checkVars = true)
     {
-        return $this->isAttribute($name) ?: parent::canGetProperty($name, $checkVars);
+        return $this->isAttribute($name) ||
+            parent::canGetProperty($name, $checkVars) ||
+            $this->getTranslation()->canGetProperty($name, $checkVars);
     }
 
     /**
@@ -164,7 +163,9 @@ class TranslatedBehavior extends Behavior
      */
     public function canSetProperty($name, $checkVars = true)
     {
-        return $this->isAttribute($name) ?: parent::canSetProperty($name, $checkVars);
+        return $this->isAttribute($name) ||
+            parent::canSetProperty($name, $checkVars) ||
+            $this->getTranslation()->canSetProperty($name, $checkVars);
     }
 
     /**
@@ -172,11 +173,11 @@ class TranslatedBehavior extends Behavior
      */
     public function __get($name)
     {
-        if ($this->isAttribute($name)) {
-            $name = $this->translateAttributes[$name];
-            return $this->getTranslation()[$name];
-        } else {
+        if ($name == 'currentTranslate' || $name == 'hasTranslate') {
             return parent::__get($name);
+        } else {
+            $name = isset($this->translateAttributes[$name]) ? $this->translateAttributes[$name] : $name;
+            return $this->getTranslation()[$name];
         }
     }
 
@@ -185,12 +186,8 @@ class TranslatedBehavior extends Behavior
      */
     public function __set($name, $value)
     {
-        if ($this->isAttribute($name)) {
-            $name = $this->translateAttributes[$name];
-            $this->getTranslation()->$name = $value;
-        } else {
-            parent::__set($name, $value);
-        }
+        $name = isset($this->translateAttributes[$name]) ? $this->translateAttributes[$name] : $name;
+        $this->getTranslation()[$name] = $value;
     }
 
     /**
@@ -217,16 +214,7 @@ class TranslatedBehavior extends Behavior
      */
     public function __call($name, $params)
     {
-        if (parent::hasMethod($name)) {
-            return parent::__call($name, $params);
-        }
-
-        $model = $this->getTranslation();
-        if($model->hasMethod($name)) {
-            return call_user_func_array([$model, $name], $params);
-        } else {
-            return $model->__call($name, $params);
-        }
+        return call_user_func_array([$this->getTranslation(), $name], $params);
     }
 
     /**
