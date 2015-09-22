@@ -19,6 +19,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property ActiveRecord[] $currentTranslate
  * @property array $hasTranslate
+ * @property ActiveRecord $translation
  * @property ActiveRecord $owner
  */
 class TranslatedBehavior extends Behavior
