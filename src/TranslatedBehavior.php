@@ -193,6 +193,42 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
+     * Returns a value indicating whether a method is defined.
+     *
+     * The default implementation is a call to php function `method_exists()`.
+     * You may override this method when you implemented the php magic method `__call()`.
+     * @param string $name the method name
+     * @return boolean whether the method is defined
+     */
+    public function hasMethod($name)
+    {
+        return parent::hasMethod($name) || $this->getTranslation()->hasMethod($name);
+    }
+
+    /**
+     * Calls the named method which is not a class method.
+     *
+     * Do not call this method directly as it is a PHP magic method that
+     * will be implicitly called when an unknown method is being invoked.
+     * @param string $name the method name
+     * @param array $params method parameters
+     * @return mixed the method return value
+     */
+    public function __call($name, $params)
+    {
+        if (parent::hasMethod($name)) {
+            return parent::__call($name, $params);
+        }
+
+        $model = $this->getTranslation();
+        if($model->hasMethod($name)) {
+            return call_user_func_array([$model, $name], $params);
+        } else {
+            return $model->__call($name, $params);
+        }
+    }
+
+    /**
      * @param string $language
      * @return bool
      */
