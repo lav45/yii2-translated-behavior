@@ -118,25 +118,32 @@ class TranslatedBehavior extends Behavior
     public function getTranslation($language = null)
     {
         $language = $language ?: $this->language;
-
         $translations = $this->getTranslateRelations();
         if (isset($translations[$language])) {
             return $translations[$language];
         }
+        $translations[$language] = $this->addTranslation($language, $translations);
+        $this->owner->populateRelation('currentTranslate', $translations);
+        return $translations[$language];
+    }
 
+    /**
+     * @param string $language
+     * @param ActiveRecord[]|array $translations
+     * @return ActiveRecord
+     */
+    protected function addTranslation($language, $translations)
+    {
         $class = $this->getRelation()->modelClass;
-        /** @var ActiveRecord $translation */
-        $translation = new $class();
+        /** @var ActiveRecord $model */
+        $model = new $class();
         if (isset($translations[$this->sourceLanguage])) {
             $attributes = $translations[$this->sourceLanguage] instanceof ActiveRecord ?
                 $translations[$this->sourceLanguage]->attributes : $translations[$this->sourceLanguage];
-            $translation->setAttributes((array) $attributes, false);
+            $model->setAttributes((array) $attributes, false);
         }
-        $translation->setAttribute($this->languageAttribute, $language);
-        $translations[$language] = $translation;
-        $this->owner->populateRelation('currentTranslate', $translations);
-
-        return $translation;
+        $model->setAttribute($this->languageAttribute, $language);
+        return $model;
     }
 
     /**
