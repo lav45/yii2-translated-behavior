@@ -225,16 +225,6 @@ class TranslatedBehavior extends Behavior
     }
 
     /**
-     * @param string $language
-     * @return bool
-     */
-    public function hasTranslate($language = null)
-    {
-        $language = $language ?: $this->language;
-        return isset($this->owner['hasTranslate'][$language]);
-    }
-
-    /**
      * @return bool
      */
     public function isSourceLanguage()

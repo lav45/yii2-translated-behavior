@@ -24,4 +24,13 @@ trait TranslatedTrait
             ActiveRecord::SCENARIO_DEFAULT => ActiveRecord::OP_ALL,
         ];
     }
+
+    /**
+     * @param string $language
+     * @return bool
+     */
+    public function hasTranslate($language)
+    {
+        return isset($this['hasTranslate'][$language]);
+    }
 }

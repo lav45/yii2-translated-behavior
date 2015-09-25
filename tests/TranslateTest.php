@@ -147,7 +147,7 @@ class TranslateTest extends DatabaseTestCase
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en', 'ru'];
         $this->assertEquals($data, $expectedData);
-        $this->assertTrue($model->hasTranslate());
+        $this->assertTrue($model->hasTranslate('ru'));
 
         Yii::$app->language = 'fr-FR';
 
@@ -158,7 +158,7 @@ class TranslateTest extends DatabaseTestCase
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en'];
         $this->assertEquals($data, $expectedData);
-        $this->assertFalse($model->hasTranslate());
+        $this->assertFalse($model->hasTranslate('fr'));
     }
 
     public function testLoadTranslateWithoutCurrentTranslate()
