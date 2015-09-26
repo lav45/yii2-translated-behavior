@@ -8,8 +8,6 @@
 
 namespace lav45\translate;
 
-use Yii;
-use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -22,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * @property ActiveRecord $translation
  * @property ActiveRecord $owner
  */
-class TranslatedBehavior extends Behavior
+class TranslatedBehavior extends BaseTranslatedBehavior
 {
     /**
      * @var string the translations relation name
@@ -32,40 +30,6 @@ class TranslatedBehavior extends Behavior
      * @var string the translations model language attribute name
      */
     public $languageAttribute = 'lang_id';
-    /**
-     * @var string[] the list of translateAttributes to be translated
-     */
-    public $translateAttributes = [];
-    /**
-     * @var string the current translate language. If not set, it will use the value of
-     * [[\yii\base\Application::language]].
-     */
-    public $language;
-    /**
-     * @var string the language that the original messages are in. If not set, it will use the value of
-     * [[\yii\base\Application::sourceLanguage]].
-     */
-    public $sourceLanguage;
-
-    /**
-     * Initializes this behavior.
-     */
-    public function init()
-    {
-        parent::init();
-        if ($this->language === null) {
-            $this->language = substr(Yii::$app->language, 0, 2);
-        }
-        if ($this->sourceLanguage === null) {
-            $this->sourceLanguage = substr(Yii::$app->sourceLanguage, 0, 2);
-        }
-
-        $attributes = [];
-        foreach ($this->translateAttributes as $key => $value) {
-            $attributes[is_integer($key) ? $value : $key] = $value;
-        }
-        $this->translateAttributes = $attributes;
-    }
 
     /**
      * @inheritdoc
@@ -97,9 +61,17 @@ class TranslatedBehavior extends Behavior
         $records = $this->owner->getRelatedRecords();
         if (!isset($records['currentTranslate']) && isset($records[$this->translateRelation])) {
             $translations = ArrayHelper::index($this->owner->{$this->translateRelation}, $this->languageAttribute);
-            $this->owner->populateRelation('currentTranslate', $translations);
+            $this->setTranslateRelations($translations);
         }
         return $this->owner['currentTranslate'];
+    }
+
+    /**
+     * @param ActiveRecord[] $models
+     */
+    protected function setTranslateRelations($models)
+    {
+        $this->owner->populateRelation('currentTranslate', $models);
     }
 
     /**
@@ -122,8 +94,8 @@ class TranslatedBehavior extends Behavior
         if (isset($translations[$language])) {
             return $translations[$language];
         }
-        $translations[$language] = $this->addTranslation($language, $translations);
-        $this->owner->populateRelation('currentTranslate', $translations);
+        $translations[$language] = $this->createTranslation($language, $translations);
+        $this->setTranslateRelations($translations);
         return $translations[$language];
     }
 
@@ -132,7 +104,7 @@ class TranslatedBehavior extends Behavior
      * @param ActiveRecord[]|array $translations
      * @return ActiveRecord
      */
-    protected function addTranslation($language, $translations)
+    protected function createTranslation($language, $translations)
     {
         $class = $this->getRelation()->modelClass;
         /** @var ActiveRecord $model */
@@ -144,15 +116,6 @@ class TranslatedBehavior extends Behavior
         }
         $model->setAttribute($this->languageAttribute, $language);
         return $model;
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    protected function isAttribute($name)
-    {
-        return isset($this->translateAttributes[$name]);
     }
 
     /**
@@ -180,10 +143,12 @@ class TranslatedBehavior extends Behavior
      */
     public function __get($name)
     {
-        if ($name == 'currentTranslate' || $name == 'hasTranslate') {
+        if(parent::canGetProperty($name)) {
             return parent::__get($name);
         } else {
-            $name = isset($this->translateAttributes[$name]) ? $this->translateAttributes[$name] : $name;
+            if ($this->isAttribute($name)) {
+                $name = $this->normalizeAttributeName($name);
+            }
             return $this->getTranslation()[$name];
         }
     }
@@ -193,8 +158,14 @@ class TranslatedBehavior extends Behavior
      */
     public function __set($name, $value)
     {
-        $name = isset($this->translateAttributes[$name]) ? $this->translateAttributes[$name] : $name;
-        $this->getTranslation()[$name] = $value;
+        if(parent::canSetProperty($name)) {
+            parent::__set($name, $value);
+        } else {
+            if ($this->isAttribute($name)) {
+                $name = $this->normalizeAttributeName($name);
+            }
+            $this->getTranslation()[$name] = $value;
+        }
     }
 
     /**
@@ -222,14 +193,6 @@ class TranslatedBehavior extends Behavior
     public function __call($name, $params)
     {
         return call_user_func_array([$this->getTranslation(), $name], $params);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isSourceLanguage()
-    {
-        return $this->language === $this->sourceLanguage;
     }
 
     /**
