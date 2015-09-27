@@ -158,8 +158,9 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function __get($name)
     {
-        if(parent::canGetProperty($name)) {
-            return parent::__get($name);
+        $getter = 'get' . $name;
+        if (method_exists($this, $getter)) {
+            return $this->$getter();
         } else {
             if ($this->isAttribute($name)) {
                 $name = $this->normalizeAttributeName($name);
@@ -173,8 +174,9 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function __set($name, $value)
     {
-        if(parent::canSetProperty($name)) {
-            parent::__set($name, $value);
+        $setter = 'set' . $name;
+        if (method_exists($this, $setter)) {
+            $this->$setter($value);
         } else {
             if ($this->isAttribute($name)) {
                 $name = $this->normalizeAttributeName($name);
