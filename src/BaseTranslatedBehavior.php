@@ -11,6 +11,12 @@ namespace lav45\translate;
 use Yii;
 use yii\base\Behavior;
 
+/**
+ * Class BaseTranslatedBehavior
+ * @package lav45\translate
+ *
+ * @property array $translateAttributes
+ */
 class BaseTranslatedBehavior extends Behavior
 {
     /**
@@ -43,10 +49,19 @@ class BaseTranslatedBehavior extends Behavior
     }
 
     /**
+     * @return array
+     */
+    public function getTranslateAttributes()
+    {
+        return $this->_attributes;
+    }
+
+    /**
      * @param array $attributes the list of translateAttributes to be translated
      */
     public function setTranslateAttributes($attributes)
     {
+        $this->_attributes = [];
         foreach ((array) $attributes as $key => $value) {
             $this->_attributes[is_integer($key) ? $value : $key] = $value;
         }

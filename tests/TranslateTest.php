@@ -200,4 +200,25 @@ class TranslateTest extends DatabaseTestCase
         $model->modelData = $expectedData;
         $this->assertEquals($model->modelData, $expectedData);
     }
+
+    public function testCheckSettings()
+    {
+        $model = new Post([
+            'translateAttributes' => [
+                'title',
+                'description',
+            ]
+        ]);
+
+        $this->assertEquals($model->translateAttributes, [
+            'title' => 'title',
+            'description' => 'description',
+        ]);
+
+        $model->translateAttributes = ['customTitle' => 'title'];
+
+        $this->assertEquals($model->translateAttributes, [
+            'customTitle' => 'title',
+        ]);
+    }
 }
