@@ -15,6 +15,21 @@ use yii\helpers\ArrayHelper;
  * Class TranslatedBehavior
  * @package lav45\translate\TranslatedBehavior
  *
+ * ================ Example use ================
+ * public function behaviors()
+ * {
+ *     return [
+ *         [
+ *             'class' => TranslatedBehavior::className(),
+ *             'translateRelation' => 'postLangs',
+ *             'translateAttributes' => [
+ *                 'titleLang' => 'title',
+ *                 'description',
+ *             ]
+ *         ]
+ *     ];
+ * }
+ *
  * @property ActiveRecord[] $currentTranslate
  * @property array $hasTranslate
  * @property ActiveRecord $translation
