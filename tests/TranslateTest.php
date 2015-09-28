@@ -221,4 +221,36 @@ class TranslateTest extends DatabaseTestCase
             'customTitle' => 'title',
         ]);
     }
+
+    public function testCheckIsSet()
+    {
+        $model = new Post;
+
+        $this->assertFalse(isset($model->id));
+        $this->assertFalse(isset($model->titleLang));
+        $this->assertFalse(isset($model->description));
+        $this->assertFalse(isset($model->lang_id));
+
+        $this->assertTrue(isset($model->language));
+        $this->assertTrue(isset($model->translation));
+        $this->assertTrue(isset($model->currentTranslate));
+        $this->assertTrue(isset($model->hasTranslate));
+        $this->assertTrue(isset($model->modelTestProperty));
+
+        /** @var Post $model */
+        $model = Post::findOne(1);
+
+        $this->assertTrue(isset($model->id));
+        $this->assertTrue(isset($model->titleLang));
+        $this->assertTrue(isset($model->description));
+        $this->assertFalse(isset($model->title));
+
+        $this->assertFalse(isset($model->modelData));
+        $model->modelData = 'OK';
+        $this->assertTrue(isset($model->modelData));
+
+        $this->assertFalse(isset($model->data));
+        $model->data = 'OK';
+        $this->assertTrue(isset($model->data));
+    }
 }
