@@ -140,7 +140,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     {
         return $this->isAttribute($name) ||
         parent::canGetProperty($name, $checkVars) ||
-        $this->getTranslation()->canGetProperty($name, $checkVars);
+        (is_object($this->getTranslation()) && $this->getTranslation()->canGetProperty($name, $checkVars));
     }
 
     /**
@@ -150,7 +150,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     {
         return $this->isAttribute($name) ||
         parent::canSetProperty($name, $checkVars) ||
-        $this->getTranslation()->canSetProperty($name, $checkVars);
+        (is_object($this->getTranslation()) && $this->getTranslation()->canSetProperty($name, $checkVars));
     }
 
     /**
