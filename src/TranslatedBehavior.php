@@ -52,18 +52,18 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
-            ActiveRecord::EVENT_AFTER_INSERT => 'afterSave',
-            ActiveRecord::EVENT_AFTER_UPDATE => 'afterSave',
+            ActiveRecord::EVENT_BEFORE_DELETE => 'eventBeforeDelete',
+            ActiveRecord::EVENT_AFTER_INSERT => 'eventAfterSave',
+            ActiveRecord::EVENT_AFTER_UPDATE => 'eventAfterSave',
         ];
     }
 
-    public function afterSave()
+    public function eventAfterSave()
     {
         $this->owner->link('currentTranslate', $this->getTranslation());
     }
 
-    public function beforeDelete()
+    public function eventBeforeDelete()
     {
         $this->owner->unlinkAll($this->translateRelation, true);
     }
