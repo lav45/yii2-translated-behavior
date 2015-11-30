@@ -10,6 +10,7 @@ namespace lav45\translate;
 
 use Yii;
 use yii\base\Behavior;
+use Locale;
 
 /**
  * Class BaseTranslatedBehavior
@@ -41,10 +42,10 @@ class BaseTranslatedBehavior extends Behavior
     {
         parent::init();
         if ($this->language === null) {
-            $this->language = substr(Yii::$app->language, 0, 2);
+            $this->language = Locale::getPrimaryLanguage(Yii::$app->language);
         }
         if ($this->sourceLanguage === null) {
-            $this->sourceLanguage = substr(Yii::$app->sourceLanguage, 0, 2);
+            $this->sourceLanguage = Locale::getPrimaryLanguage(Yii::$app->sourceLanguage);
         }
     }
 
