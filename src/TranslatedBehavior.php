@@ -51,10 +51,10 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function events()
     {
-        $beforeDelete = function () {
+        $beforeDelete = function() {
             $this->owner->unlinkAll($this->translateRelation, true);
         };
-        $afterSave = function () {
+        $afterSave = function() {
             $this->owner->link('currentTranslate', $this->getTranslation());
         };
         return [
@@ -62,6 +62,23 @@ class TranslatedBehavior extends BaseTranslatedBehavior
             ActiveRecord::EVENT_AFTER_INSERT => $afterSave,
             ActiveRecord::EVENT_AFTER_UPDATE => $afterSave,
         ];
+    }
+
+    /**
+     * Returns the translation model for the specified language.
+     * @param string|null $language
+     * @return ActiveRecord
+     */
+    public function getTranslation($language = null)
+    {
+        $language = $language ?: $this->language;
+        $translations = $this->getTranslateRelations();
+        if (isset($translations[$language])) {
+            return $translations[$language];
+        }
+        $translations[$language] = $this->createTranslation($language, $translations);
+        $this->setTranslateRelations($translations);
+        return $translations[$language];
     }
 
     /**
@@ -86,31 +103,6 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    protected function getRelation()
-    {
-        return $this->owner->getRelation($this->translateRelation);
-    }
-
-    /**
-     * Returns the translation model for the specified language.
-     * @param string|null $language
-     * @return ActiveRecord
-     */
-    public function getTranslation($language = null)
-    {
-        $language = $language ?: $this->language;
-        $translations = $this->getTranslateRelations();
-        if (isset($translations[$language])) {
-            return $translations[$language];
-        }
-        $translations[$language] = $this->createTranslation($language, $translations);
-        $this->setTranslateRelations($translations);
-        return $translations[$language];
-    }
-
-    /**
      * @param string $language
      * @param ActiveRecord[]|array $translations
      * @return ActiveRecord
@@ -127,6 +119,14 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         }
         $model->setAttribute($this->languageAttribute, $language);
         return $model;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    protected function getRelation()
+    {
+        return $this->owner->getRelation($this->translateRelation);
     }
 
     /**
