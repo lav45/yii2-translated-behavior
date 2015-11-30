@@ -63,7 +63,8 @@ class BaseTranslatedBehavior extends Behavior
     {
         $this->_attributes = [];
         foreach ((array) $attributes as $key => $value) {
-            $this->_attributes[is_integer($key) ? $value : $key] = $value;
+            $key = is_int($key) ? $value : $key;
+            $this->_attributes[$key] = $value;
         }
     }
 
@@ -80,9 +81,9 @@ class BaseTranslatedBehavior extends Behavior
      * @param string $name
      * @return string
      */
-    protected function normalizeAttributeName($name)
+    protected function getAttributeName($name)
     {
-        return isset($this->_attributes[$name]) ? $this->_attributes[$name] : $name;
+        return $this->_attributes[$name];
     }
 
     /**
