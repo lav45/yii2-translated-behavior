@@ -72,12 +72,19 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function getTranslation($language = null)
     {
         $language = $language ?: $this->language;
+
         $translations = $this->getTranslateRelations();
         if (isset($translations[$language])) {
             return $translations[$language];
         }
-        $translations[$language] = $this->createTranslation($language, $translations);
+
+        $attributes = isset($translations[$this->sourceLanguage]) ?
+            ArrayHelper::toArray($translations[$this->sourceLanguage]) : [];
+
+        $translations[$language] = $this->createTranslation($language, $attributes);
+
         $this->setTranslateRelations($translations);
+
         return $translations[$language];
     }
 
@@ -104,20 +111,16 @@ class TranslatedBehavior extends BaseTranslatedBehavior
 
     /**
      * @param string $language
-     * @param ActiveRecord[]|array $translations
+     * @param array $attributes
      * @return ActiveRecord
      */
-    protected function createTranslation($language, $translations)
+    protected function createTranslation($language, $attributes = [])
     {
         $class = $this->getRelation()->modelClass;
         /** @var ActiveRecord $model */
         $model = new $class();
-        if (isset($translations[$this->sourceLanguage])) {
-            $attributes = $translations[$this->sourceLanguage] instanceof ActiveRecord ?
-                $translations[$this->sourceLanguage]->attributes : $translations[$this->sourceLanguage];
-            $model->setAttributes((array) $attributes, false);
-        }
-        $model->setAttribute($this->languageAttribute, $language);
+        $attributes[$this->languageAttribute] = $language;
+        $model->setAttributes($attributes, false);
         return $model;
     }
 
