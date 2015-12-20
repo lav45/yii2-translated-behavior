@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/BSD-3-Clause
  */
 
-namespace lav45\translate;
+namespace lav45\translate\grid;
 
 use yii\helpers\Url;
 use yii\helpers\Html;
 
 /**
  * Class ActionColumn
- * @package lav45\translate
+ * @package lav45\translate\grid
  */
 class ActionColumn extends \yii\grid\ActionColumn
 {

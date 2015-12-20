@@ -6,14 +6,14 @@
  * @license http://opensource.org/licenses/BSD-3-Clause
  */
 
-namespace lav45\translate;
+namespace lav45\translate\web;
 
 use Yii;
 use Locale;
 
 /**
  * Class UrlRule
- * @package lav45\translate
+ * @package lav45\translate\web
  */
 class UrlRule extends \yii\web\UrlRule
 {

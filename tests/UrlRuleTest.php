@@ -26,7 +26,7 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
                     'scriptUrl' => '/index.php',
                     'showScriptName'  => false,
                     'enablePrettyUrl' => true,
-                    'ruleConfig' => ['class' => 'lav45\translate\UrlRule'],
+                    'ruleConfig' => ['class' => 'lav45\translate\web\UrlRule'],
                     'rules' => [
                         [
                             'pattern' => '<_lang:' . Lang::PATTERN . '>',

@@ -168,7 +168,7 @@ backend/view/post/index.php
         'dataProvider' => $dataProvider,
         'columns' => [
             [
-                'class' => 'lav45\translate\ActionColumn',
+                'class' => 'lav45\translate\grid\ActionColumn',
                 'languages' => $langList,
             ],
             [
@@ -205,7 +205,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'ruleConfig' => ['class' => 'lav45\translate\UrlRule'], // Этот класс будет использоватся по умолчантю для создания URL
+            'ruleConfig' => ['class' => 'lav45\translate\web\UrlRule'], // Этот класс будет использоватся по умолчантю для создания URL
             'rules' => [
                 [
                     'class' => 'yii\web\UrlRule', // Если нет не нужно подставлять язык, можно использовать баховый класс
