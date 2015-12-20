@@ -9,6 +9,7 @@
 namespace lav45\translate;
 
 use Yii;
+use Locale;
 
 /**
  * Class UrlRule
@@ -32,7 +33,7 @@ class UrlRule extends \yii\web\UrlRule
     public function getLanguage()
     {
         if ($this->_language === null) {
-            $this->_language = substr(Yii::$app->language, 0, 2);
+            $this->_language = Locale::getPrimaryLanguage(Yii::$app->language);
         }
         return $this->_language;
     }
