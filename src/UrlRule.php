@@ -30,7 +30,7 @@ class UrlRule extends \yii\web\UrlRule
     /**
      * @return string
      */
-    public function getLanguage()
+    protected function getLanguage()
     {
         if ($this->_language === null) {
             $this->_language = Locale::getPrimaryLanguage(Yii::$app->language);
