@@ -8,29 +8,29 @@ yii2-translated-behavior
 [![Code Coverage](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/)
 
-The Translated Behavior is a Yii2 extension for ActiveRecord models, that will help you add the possibility of transferring any entity.
+Translated Behavior это Yii2 расширение для ActiveRecord моделей, которое поможет вам добавить возможность перевода любой сущности.
 
-## Installation
+## Установка
 
-The preferred way to install this extension through [composer](http://getcomposer.org/download/).
+Предпочтительный способ установить это расширение через [composer](http://getcomposer.org/download/).
 
-You can set the console
+Можно установить из консоли
 
 ```
 $ php composer.phar require "lav45/yii2-translated-behavior:1.3.*"
 ```
 
-or add
+или добавить
 
 ```
 "lav45/yii2-translated-behavior": "1.3.*"
 ```
 
-in ```require``` section in `composer.json` file.
+в ```require``` разделе в `composer.json` файл.
 
-## Settings
+## Настройка
 
-First you have to move all the attributes that are required for translation in a separate table. For example, imagine that we want to save the translation of the title and description of your post being. Your table schema should be brought to the following form:
+Сначала вы должны переместить все атрибуты, которые требуются для перевода в отдельной таблице. Например, представьте, что мы хотите сохранить перевод названия и описание от вашей post сущности. Ваши схемы таблиц следует привести к следующему виду:
 ```
     +--------------+        +--------------+       +-------------------+
     |     post     |        |     post     |       |     post_lang     |
@@ -44,7 +44,7 @@ First you have to move all the attributes that are required for translation in a
 
 ```
 
-After you change the table schema, we now need to determine the ratio of our `ActiveRecord` objects and adding behavior:
+После того, как вы изменили схему таблиц, теперь нам нужно определить отношение в наших `ActiveRecord` объектах и добавить поведение:
 
 ### Post
 ```php
@@ -79,8 +79,8 @@ class Post extends ActiveRecord
         return [
             [
                 'class' => TranslatedBehavior::className(),
-                'translateRelation' => 'postLangs', // Specify the name of the connection that will store transfers
-//                'languageAttribute' => 'lang_id' // post_lang field from the table that will store the target language
+                'translateRelation' => 'postLangs', // Указываем имя связи в которой будут храниться переводы
+//                'languageAttribute' => 'lang_id' // Поле из таблицы post_lang в котором будет храниться язык перевода
                 'translateAttributes' => [
                     'title',
                     'description',
@@ -111,11 +111,11 @@ class Post extends ActiveRecord
 
 [migrate/m151220_112320_lang.php](migrate/m151220_112320_lang.php)
 
-#### Lang ActiveRecord model cite completely
+#### Lang ActiveRecord модель привожу полностью
 
 [\lav45\translate\models\Lang](src/models/Lang.php)
 
-## Using
+## Использование
 
 ### Backend
 
@@ -143,8 +143,8 @@ class PostController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => Post::find()
                 ->with([
-                    'currentTranslate', // loadabing data associated with the current translation
-                    'hasTranslate' // need to display the status was translated page
+                    'currentTranslate', // загружаем связанные данные с текущим перевод
+                    'hasTranslate' // нужна для отображения статуса была ли переведена страница
                 ]),
         ]);
 
@@ -174,12 +174,12 @@ backend/view/post/index.php
     ]);
     ?>
 ```
-As a result, after the creation of a new page will get a few buttons to edit the content in different languages
+В результате после сознания новой страницы получим нескалько кнопок для редактирования контента на разный языках
 
 ![Translate button](images/translate_button.png)
 
 
-So you can get the current language of the model
+Так можно получить текущий язык из модели
 ```php
 /**
  * @var $this yii\web\View
@@ -200,10 +200,10 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'ruleConfig' => ['class' => 'lav45\translate\UrlRule'], // This class will be used by default to create a URL
+            'ruleConfig' => ['class' => 'lav45\translate\UrlRule'], // Этот класс будет использоватся по умолчантю для создания URL
             'rules' => [
                 [
-                    'class' => 'yii\web\UrlRule', // If there is no need to substitute the language, you can use the base class
+                    'class' => 'yii\web\UrlRule', // Если нет не нужно подставлять язык, можно использовать баховый класс
                     'pattern' => '',
                     'route' => 'post/index',
                 ],
@@ -235,8 +235,8 @@ class PostController extends Controller
     {
         return [
             [
-              // ContentNegotiator will be determined from a URL or browser language settings and install it in
-              // Yii::$app->language, which uses the class TranslatedBehavior as language translation
+              // ContentNegotiator будет отпределять из URL или настроек браузера язык и устанавливать его в
+              // Yii::$app->language, каторый использует класс TranslatedBehavior как язык перевода
                 'class' => 'yii\filters\ContentNegotiator',
                 'languages' => Lang::getLocaleList()
             ],
@@ -244,6 +244,6 @@ class PostController extends Controller
     }
 ```
 
-## License
+## Лицензия
 
-**yii2-translated-behavior** it is available under a BSD 3-Clause License. Detailed information can be found in the `LICENSE.md`.
+**yii2-translated-behavior** выпускается под BSD 3-Clause лицензией. Подробную информацию можно найти в `LICENSE.md`.
