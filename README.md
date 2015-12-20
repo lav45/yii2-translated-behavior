@@ -111,6 +111,11 @@ class Post extends ActiveRecord
 
 [migrate/m151220_112320_lang.php](migrate/m151220_112320_lang.php)
 
+Apply with the console command:
+```
+~$ yii migrate/up --migrationPath=vendor/lav45/yii2-translated-behavior/migrate
+```
+
 #### Lang ActiveRecord model cite completely
 
 [\lav45\translate\models\Lang](src/models/Lang.php)
