@@ -249,6 +249,21 @@ class PostController extends Controller
     }
 ```
 
+or you can add for all controllers, for this you need to add in `frontend/config/bootstrap.php`
+
+```php
+\yii\base\Event::on('yii\base\Controller', 'beforeAction', function($event) {
+    /** @var yii\filters\ContentNegotiator $negotiator */
+    $negotiator = Yii::createObject([
+        'class' => 'yii\filters\ContentNegotiator',
+        'languages' => \common\models\Lang::getLocaleList(),
+    ]);
+    /** @var yii\base\ActionEvent $event */
+    $negotiator->attach($event->action);
+    $negotiator->negotiate();
+});
+```
+
 ## License
 
 **yii2-translated-behavior** it is available under a BSD 3-Clause License. Detailed information can be found in the `LICENSE.md`.
