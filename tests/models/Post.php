@@ -8,6 +8,7 @@ use lav45\translate\TranslatedBehavior;
 
 /**
  * Class Post
+ * @package tests\models
  *
  * @property integer $id
  *

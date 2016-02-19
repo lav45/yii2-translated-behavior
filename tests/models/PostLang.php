@@ -51,8 +51,11 @@ class PostLang extends ActiveRecord
     public function rules()
     {
         return [
-            [['post_id', 'lang_id'], 'required'],
-            [['post_id', 'lang_id'], 'required'],
+            [['post_id'], 'required'],
+            [['post_id'], 'integer'],
+
+            [['lang_id'], 'required'],
+            [['lang_id'], 'string'],
 
             [['title'], 'required'],
             [['title'], 'string', 'max' => 128],
