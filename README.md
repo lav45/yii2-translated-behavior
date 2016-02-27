@@ -17,13 +17,13 @@ The preferred way to install this extension through [composer](http://getcompose
 You can set the console
 
 ```
-$ php composer.phar require "lav45/yii2-translated-behavior:1.3.*"
+$ php composer.phar require "lav45/yii2-translated-behavior:1.4.*"
 ```
 
 or add
 
 ```
-"lav45/yii2-translated-behavior": "1.3.*"
+"lav45/yii2-translated-behavior": "1.4.*"
 ```
 
 in ```require``` section in `composer.json` file.
