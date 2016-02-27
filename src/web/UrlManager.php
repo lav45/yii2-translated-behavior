@@ -17,11 +17,6 @@ class UrlManager extends \yii\web\UrlManager
     use LanguageUrlTrait;
 
     /**
-     * @var array
-     */
-    public $ruleConfig = ['class' => 'lav45\translate\web\UrlRule'];
-
-    /**
      * @inheritdoc
      */
     public function createUrl($params)
