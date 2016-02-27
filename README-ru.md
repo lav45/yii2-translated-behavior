@@ -203,12 +203,12 @@ use lav45\translate\models\Lang;
 return [
     'components' => [
         'urlManager' => [
+            'class' => 'lav45\translate\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'ruleConfig' => ['class' => 'lav45\translate\web\UrlRule'], // Этот класс будет использоватся по умолчантю для создания URL
             'rules' => [
                 [
-                    'class' => 'yii\web\UrlRule', // Если нет не нужно подставлять язык, можно использовать баховый класс
+                    'class' => 'yii\web\UrlRule', // Если не нужно подставлять язык, можно использовать базовый класс
                     'pattern' => '',
                     'route' => 'post/index',
                 ],

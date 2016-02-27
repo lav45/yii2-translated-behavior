@@ -203,9 +203,9 @@ use lav45\translate\models\Lang;
 return [
     'components' => [
         'urlManager' => [
+            'class' => 'lav45\translate\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'ruleConfig' => ['class' => 'lav45\translate\web\UrlRule'], // This class will be used by default to create a URL
             'rules' => [
                 [
                     'class' => 'yii\web\UrlRule', // If there is no need to substitute the language, you can use the base class

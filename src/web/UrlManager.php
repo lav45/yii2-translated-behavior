@@ -9,19 +9,24 @@
 namespace lav45\translate\web;
 
 /**
- * Class UrlRule
+ * Class UrlManager
  * @package lav45\translate\web
  */
-class UrlRule extends \yii\web\UrlRule
+class UrlManager extends \yii\web\UrlManager
 {
     use LanguageUrlTrait;
 
     /**
+     * @var array
+     */
+    public $ruleConfig = ['class' => 'lav45\translate\web\UrlRule'];
+
+    /**
      * @inheritdoc
      */
-    public function createUrl($manager, $route, $params)
+    public function createUrl($params)
     {
         $params = $this->checkLanguageParams($params);
-        return parent::createUrl($manager, $route, $params);
+        return parent::createUrl($params);
     }
 }

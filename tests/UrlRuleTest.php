@@ -21,12 +21,12 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
             'basePath' => __DIR__,
             'components' => [
                 'urlManager' => [
+                    'class' => 'lav45\translate\web\UrlManager',
                     'baseUrl' => '',
                     'hostInfo' => 'http://site.com',
                     'scriptUrl' => '/index.php',
                     'showScriptName'  => false,
                     'enablePrettyUrl' => true,
-                    'ruleConfig' => ['class' => 'lav45\translate\web\UrlRule'],
                     'rules' => [
                         [
                             'pattern' => '<_lang:' . Lang::PATTERN . '>',
@@ -53,6 +53,11 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
             '/en/pageName.html' => ['page/view', 'name' => 'pageName'],
             '/ru/test-page.html' => ['page/view', 'name' => 'test-page', '_lang' => 'ru'],
             '/ru/test-page.html?param=value' => ['page/view', 'name' => 'test-page', '_lang' => 'ru', 'param' => 'value'],
+
+            '/' => '/',
+            '/site/index?_lang=en' => ['site/index'],
+            '/site/index?param=val&_lang=en' => ['site/index', 'param' => 'val'],
+            '/site/index?param=val&_lang=ru' => ['site/index', 'param' => 'val', '_lang' => 'ru'],
         ];
 
         $this->beginTest($tests);
