@@ -14,9 +14,10 @@ use lav45\translate\TranslatedBehavior;
  *
  * @property PostLang[] $postLangs
  *
- * @property string $title
  * @property string $titleLang
  * @property string $description
+ *
+ * @mixin PostLang
  */
 class Post extends ActiveRecord
 {
