@@ -253,4 +253,23 @@ class TranslateTest extends DatabaseTestCase
         $model->data = 'OK';
         $this->assertTrue(isset($model->data));
     }
+
+    public function testTranslateAttributeName()
+    {
+        $model = new Post;
+        $this->assertEquals($model->getTranslateAttributeName('titleLang'), 'title');
+        $this->assertEquals($model->getTranslateAttributeName('description'), 'description');
+        $this->assertEquals($model->getTranslateAttributeName('fff'), null);
+    }
+
+    public function testAttributeChanged()
+    {
+        /** @var Post $model */
+        $model = Post::findOne(1);
+
+        $this->assertFalse($model->isAttributeChanged('id'));
+        $this->assertFalse($model->isAttributeChanged('titleLang'));
+        $model->titleLang = 'test';
+        $this->assertTrue($model->isAttributeChanged('titleLang'));
+    }
 }

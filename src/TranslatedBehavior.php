@@ -165,9 +165,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         if (method_exists($this, $getter)) {
             return $this->$getter();
         } else {
-            if ($this->isAttribute($name)) {
-                $name = $this->getAttributeName($name);
-            }
+            $name = $this->getTranslateAttributeName($name) ?: $name;
             return $this->getTranslation()[$name];
         }
     }
@@ -181,9 +179,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         if (method_exists($this, $setter)) {
             $this->$setter($value);
         } else {
-            if ($this->isAttribute($name)) {
-                $name = $this->getAttributeName($name);
-            }
+            $name = $this->getTranslateAttributeName($name) ?: $name;
             $this->getTranslation()[$name] = $value;
         }
     }

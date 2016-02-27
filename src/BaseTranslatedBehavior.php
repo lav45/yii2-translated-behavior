@@ -82,9 +82,9 @@ class BaseTranslatedBehavior extends Behavior
      * @param string $name
      * @return string
      */
-    protected function getAttributeName($name)
+    public function getTranslateAttributeName($name)
     {
-        return $this->_attributes[$name];
+        return $this->isAttribute($name) ? $this->_attributes[$name] : null;
     }
 
     /**
