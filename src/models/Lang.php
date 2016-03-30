@@ -10,7 +10,7 @@ use Locale;
  * This is the model class for table "lang".
  *
  * @property string $id
- * @property string $local
+ * @property string $locale
  * @property string $name
  * @property integer $status
  */
@@ -27,7 +27,7 @@ class Lang extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'lang';
+        return '{{%lang}}';
     }
 
     /**
@@ -47,15 +47,15 @@ class Lang extends ActiveRecord
             [['name'], 'string', 'max' => 32],
             [['name'], 'unique'],
 
-            [['local'], 'trim'],
-            [['local'], 'required'],
-            [['local'], 'string', 'max' => 8],
+            [['locale'], 'trim'],
+            [['locale'], 'required'],
+            [['locale'], 'string', 'max' => 8],
 
             [['status'], 'integer'],
             [['status'], 'default', 'value' => self::STATUS_ACTIVE],
             [['status'], 'in', 'range' => array_keys($this->getStatusList())],
 
-            [['id', 'status', 'local'], function($attribute) {
+            [['id', 'status', 'locale'], function($attribute) {
                 if ($this->isAttributeChanged($attribute, false) && $this->isSourceLanguage()) {
                     $this->addError($attribute, 'This field is not editable.');
                 }
@@ -70,7 +70,7 @@ class Lang extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'local' => 'Local',
+            'locale' => 'Locale',
             'name' => 'Name',
             'status' => 'Status',
         ];
@@ -114,7 +114,7 @@ class Lang extends ActiveRecord
     public static function getLocaleList()
     {
         return static::find()
-            ->select(['local', 'id'])
+            ->select(['locale', 'id'])
             ->where(['status' => self::STATUS_ACTIVE])
             ->indexBy('id')
             ->column();
