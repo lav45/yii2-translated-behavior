@@ -42,11 +42,21 @@ class BaseTranslatedBehavior extends Behavior
     {
         parent::init();
         if ($this->language === null) {
-            $this->language = Locale::getPrimaryLanguage(Yii::$app->language);
+            $this->language = $this->getPrimaryLanguage(Yii::$app->language);
         }
         if ($this->sourceLanguage === null) {
-            $this->sourceLanguage = Locale::getPrimaryLanguage(Yii::$app->sourceLanguage);
+            $this->sourceLanguage = $this->getPrimaryLanguage(Yii::$app->sourceLanguage);
         }
+    }
+
+    /**
+     * @param string $locale `en-EN`, `ru-RU`
+     * @return string
+     */
+    private function getPrimaryLanguage($locale)
+    {
+        return extension_loaded('intl') ?
+            Locale::getPrimaryLanguage($locale) : substr($locale, 0, 2);
     }
 
     /**
