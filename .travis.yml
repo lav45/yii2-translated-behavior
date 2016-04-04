@@ -13,7 +13,7 @@ matrix:
 install:
   - composer self-update
   - composer --version
-  - composer global require "fxp/composer-asset-plugin:~1.0.0" --prefer-dist --no-interaction
+  - composer global require "fxp/composer-asset-plugin:1.1.*" --prefer-dist --no-interaction
   - composer install --prefer-dist --no-interaction
   - composer show -i
 
