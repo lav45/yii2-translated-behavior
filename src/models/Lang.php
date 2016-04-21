@@ -93,30 +93,46 @@ class Lang extends ActiveRecord
     }
 
     /**
-     * @param bool $active
+     * @param bool $active default false so it is most often used in backend
      * @return array
      */
     public static function getList($active = false)
     {
-        $condition = $active ? ['status' => self::STATUS_ACTIVE] : [];
-
-        return static::find()
+        $query = static::find()
             ->select(['name', 'id'])
-            ->filterWhere($condition)
             ->orderBy('id')
-            ->indexBy('id')
-            ->column();
+            ->indexBy('id');
+
+        if ($active == true) {
+            $query->active();
+        }
+
+        return $query->column();
     }
 
     /**
+     * @param bool $active default true so it is most often used in frontend
      * @return array
      */
-    public static function getLocaleList()
+    public static function getLocaleList($active = true)
     {
-        return static::find()
+        $query = static::find()
             ->select(['locale', 'id'])
-            ->where(['status' => self::STATUS_ACTIVE])
-            ->indexBy('id')
-            ->column();
+            ->indexBy('id');
+
+        if ($active == true) {
+            $query->active();
+        }
+
+        return $query->column();
+    }
+
+    /**
+     * @inheritdoc
+     * @return LangQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new LangQuery(get_called_class());
     }
 }
