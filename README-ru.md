@@ -10,6 +10,8 @@ yii2-translated-behavior
 
 Translated Behavior это Yii2 расширение для ActiveRecord моделей, которое поможет вам добавить возможность перевода любой сущности.
 
+Вы можете ознакомиться с [DEMO](https://yii2-translated-behavior.herokuapp.com) 
+
 ## Установка
 
 Предпочтительный способ установить это расширение через [composer](http://getcomposer.org/download/).

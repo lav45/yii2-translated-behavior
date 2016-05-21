@@ -10,6 +10,8 @@ yii2-translated-behavior
 
 The Translated Behavior is a Yii2 extension for ActiveRecord models, that will help you add the possibility of transferring any entity.
 
+You can see [DEMO](https://yii2-translated-behavior.herokuapp.com) 
+
 ## Installation
 
 The preferred way to install this extension through [composer](http://getcomposer.org/download/).
