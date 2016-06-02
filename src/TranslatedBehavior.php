@@ -194,7 +194,8 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function hasMethod($name)
     {
-        return parent::hasMethod($name) || $this->getTranslation()->hasMethod($name);
+        return parent::hasMethod($name) || 
+        is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name);
     }
 
     /**
