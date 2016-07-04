@@ -4,7 +4,7 @@ namespace lav45\translate\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use Locale;
+use lav45\translate\LocaleHelperTrait;
 
 /**
  * This is the model class for table "lang".
@@ -16,6 +16,8 @@ use Locale;
  */
 class Lang extends ActiveRecord
 {
+    use LocaleHelperTrait;
+
     const STATUS_DISABLE = 1;
 
     const STATUS_ACTIVE = 10;
@@ -78,7 +80,7 @@ class Lang extends ActiveRecord
 
     public function isSourceLanguage()
     {
-        return $this->getOldAttribute('id') == Locale::getPrimaryLanguage(Yii::$app->sourceLanguage);
+        return $this->getOldAttribute('id') == $this->getPrimaryLanguage(Yii::$app->sourceLanguage);
     }
 
     /**

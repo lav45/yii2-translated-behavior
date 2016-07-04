@@ -9,10 +9,17 @@
 namespace lav45\translate\web;
 
 use Yii;
-use Locale;
+use lav45\translate\LocaleHelperTrait;
 
+/**
+ * Class LanguageUrlTrait
+ * @package lav45\translate\web
+ *
+ * @property string $language
+ */
 trait LanguageUrlTrait
 {
+    use LocaleHelperTrait;
     /**
      * @var string
      */
@@ -26,12 +33,20 @@ trait LanguageUrlTrait
     /**
      * @return string
      */
-    protected function getLanguage()
+    public function getLanguage()
     {
         if ($this->_language === null) {
-            $this->_language = Locale::getPrimaryLanguage(Yii::$app->language);
+            $this->_language = $this->getPrimaryLanguage(Yii::$app->language);
         }
         return $this->_language;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLanguage($locale)
+    {
+        $this->_language = empty($locale) ? null : $this->getPrimaryLanguage($locale);
     }
 
     /**

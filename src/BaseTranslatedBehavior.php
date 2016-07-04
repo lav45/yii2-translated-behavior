@@ -10,7 +10,6 @@ namespace lav45\translate;
 
 use Yii;
 use yii\base\Behavior;
-use Locale;
 
 /**
  * Class BaseTranslatedBehavior
@@ -20,6 +19,7 @@ use Locale;
  */
 class BaseTranslatedBehavior extends Behavior
 {
+    use LocaleHelperTrait;
     /**
      * @var string the current translate language. If not set, it will use the value of
      * [[\yii\base\Application::language]].
@@ -47,16 +47,6 @@ class BaseTranslatedBehavior extends Behavior
         if ($this->sourceLanguage === null) {
             $this->sourceLanguage = $this->getPrimaryLanguage(Yii::$app->sourceLanguage);
         }
-    }
-
-    /**
-     * @param string $locale `en-EN`, `ru-RU`
-     * @return string
-     */
-    private function getPrimaryLanguage($locale)
-    {
-        return extension_loaded('intl') ?
-            Locale::getPrimaryLanguage($locale) : substr($locale, 0, 2);
     }
 
     /**
