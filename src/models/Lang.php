@@ -84,7 +84,7 @@ class Lang extends ActiveRecord
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getStatusList()
     {
@@ -105,7 +105,7 @@ class Lang extends ActiveRecord
             ->orderBy('id')
             ->indexBy('id');
 
-        if ($active == true) {
+        if ($active === true) {
             $query->active();
         }
 
@@ -122,7 +122,7 @@ class Lang extends ActiveRecord
             ->select(['locale', 'id'])
             ->indexBy('id');
 
-        if ($active == true) {
+        if ($active === true) {
             $query->active();
         }
 
