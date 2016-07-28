@@ -19,7 +19,7 @@ The preferred way to install this extension through [composer](http://getcompose
 You can set the console
 
 ```
-$ php composer.phar require "lav45/yii2-translated-behavior:1.4.*"
+$ composer require "lav45/yii2-translated-behavior"
 ```
 
 or add
