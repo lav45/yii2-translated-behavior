@@ -16,6 +16,8 @@ use yii\base\Behavior;
  * @package lav45\translate
  *
  * @property array $translateAttributes
+ * @property string $language
+ * @property string $sourceLanguage
  */
 class BaseTranslatedBehavior extends Behavior
 {
@@ -24,29 +26,53 @@ class BaseTranslatedBehavior extends Behavior
      * @var string the current translate language. If not set, it will use the value of
      * [[\yii\base\Application::language]].
      */
-    public $language;
+    private $_language;
     /**
      * @var string the language that the original messages are in. If not set, it will use the value of
      * [[\yii\base\Application::sourceLanguage]].
      */
-    public $sourceLanguage;
+    private $_sourceLanguage;
     /**
      * @var array
      */
     private $_attributes = [];
 
     /**
-     * Initializes this behavior.
+     * @return string
      */
-    public function init()
+    public function getLanguage()
     {
-        parent::init();
-        if ($this->language === null) {
-            $this->language = $this->getPrimaryLanguage(Yii::$app->language);
+        if ($this->_language === null) {
+            $this->setLanguage(Yii::$app->language);
         }
-        if ($this->sourceLanguage === null) {
-            $this->sourceLanguage = $this->getPrimaryLanguage(Yii::$app->sourceLanguage);
+        return $this->_language;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setLanguage($locale)
+    {
+        $this->_language = $this->getPrimaryLanguage($locale);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceLanguage()
+    {
+        if ($this->_sourceLanguage === null) {
+            $this->setSourceLanguage(Yii::$app->sourceLanguage);
         }
+        return $this->_sourceLanguage;
+    }
+
+    /**
+     * @param string $locale
+     */
+    public function setSourceLanguage($locale)
+    {
+        $this->_sourceLanguage = $this->getPrimaryLanguage($locale);
     }
 
     /**
@@ -92,6 +118,6 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function isSourceLanguage()
     {
-        return $this->language === $this->sourceLanguage;
+        return $this->getLanguage() === $this->getSourceLanguage();
     }
 }

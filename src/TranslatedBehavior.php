@@ -75,15 +75,16 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function getTranslation($language = null)
     {
-        $language = $language ?: $this->language;
+        $language = $language ?: $this->getLanguage();
 
         $translations = $this->getTranslateRelations();
         if (isset($translations[$language])) {
             return $translations[$language];
         }
 
-        $attributes = isset($translations[$this->sourceLanguage]) ?
-            ArrayHelper::toArray($translations[$this->sourceLanguage]) : [];
+        $sourceLanguage = $this->getSourceLanguage();
+        $attributes = isset($translations[$sourceLanguage]) ?
+            ArrayHelper::toArray($translations[$sourceLanguage]) : [];
 
         $translations[$language] = $this->createTranslation($language, $attributes);
 
@@ -194,7 +195,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function hasMethod($name)
     {
-        return parent::hasMethod($name) || 
+        return parent::hasMethod($name) ||
         is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name);
     }
 
@@ -241,7 +242,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function getCurrentTranslate()
     {
-        $langList = [$this->language, $this->sourceLanguage];
+        $langList = [$this->getLanguage(), $this->getSourceLanguage()];
         $langList = array_keys(array_flip($langList));
         /** @var ActiveRecord $class */
         $class = $this->getRelation()->modelClass;
