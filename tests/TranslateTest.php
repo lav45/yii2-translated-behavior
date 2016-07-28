@@ -270,10 +270,14 @@ class TranslateTest extends DatabaseTestCase
         /** @var Post $model */
         $model = Post::findOne(1);
 
-        $this->assertFalse($model->isAttributeChanged('id'));
         $this->assertFalse($model->isAttributeChanged('titleLang'));
+        $this->assertFalse($model->isAttributeChanged('status_id'));
+
         $model->titleLang = 'test';
         $this->assertTrue($model->isAttributeChanged('titleLang'));
+
+        $model->status_id = 2;
+        $this->assertTrue($model->isAttributeChanged('status_id'));
     }
 
     public function testJoinCurrentTranslateRelation()
