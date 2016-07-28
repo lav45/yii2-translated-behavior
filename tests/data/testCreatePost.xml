@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-    <post id="1" />
-    <post id="2" />
-    <post id="3" />
+    <post id="1" status_id="1" />
+    <post id="2" status_id="2" />
+    <post id="3" status_id="1" />
 
     <post_lang post_id="1" lang_id="en" title="title of the first post" description="description the first post" />
     <post_lang post_id="1" lang_id="ru" title="заголовок первой страницы" description="описание первого поста" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-    <post id="2" />
+    <post id="2" status_id="2" />
 
     <post_lang post_id="2" lang_id="en" title="title of the second post" description="description of the second post" />
 

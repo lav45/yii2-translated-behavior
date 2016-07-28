@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
  * Class PostLang
  *
  * @property integer $post_id
- * @property integer $lang_id
+ * @property string $lang_id
  * @property string $title
  * @property string $description
  *

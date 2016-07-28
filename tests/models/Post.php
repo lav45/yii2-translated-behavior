@@ -13,6 +13,7 @@ use lav45\translate\TranslatedBehavior;
  * @property integer $id
  *
  * @property PostLang[] $postLangs
+ * @property Status $status
  *
  * @property string $titleLang
  * @property string $description
@@ -33,6 +34,9 @@ class Post extends ActiveRecord
         return 'post';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function fields()
     {
         $fields = parent::fields();
@@ -85,5 +89,13 @@ class Post extends ActiveRecord
     public function getPostLangs()
     {
         return $this->hasMany(PostLang::className(), ['post_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(Status::className(), ['id' => 'status_id']);
     }
 }

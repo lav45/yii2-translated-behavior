@@ -5,11 +5,19 @@
     <lang id="ru" />
     <lang id="fr" />
 
-    <post id="1" />
-    <post id="2" />
+    <post id="1" status_id="1" />
+    <post id="2" status_id="2" />
 
     <post_lang post_id="1" lang_id="en" title="title of the first post" description="description the first post" />
     <post_lang post_id="1" lang_id="ru" title="заголовок первой страницы" description="описание первого поста" />
     <post_lang post_id="2" lang_id="en" title="title of the second post" description="description of the second post" />
+
+    <status id="1" />
+    <status id="2" />
+
+    <status_lang status_id="1" lang_id="en" title="Active" />
+    <status_lang status_id="1" lang_id="ru" title="Активен" />
+    <status_lang status_id="2" lang_id="en" title="Disabled" />
+    <status_lang status_id="2" lang_id="ru" title="Заблокирован" />
 
 </dataset>

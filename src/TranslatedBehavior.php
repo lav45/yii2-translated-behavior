@@ -243,9 +243,12 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     {
         $langList = [$this->language, $this->sourceLanguage];
         $langList = array_keys(array_flip($langList));
+        /** @var ActiveRecord $class */
+        $class = $this->getRelation()->modelClass;
+        $table = $class::tableName();
 
         return $this->getRelation()
-            ->where([$this->languageAttribute => $langList])
+            ->where([$table . '.' . $this->languageAttribute => $langList])
             ->indexBy($this->languageAttribute);
     }
 }

@@ -46,11 +46,13 @@ class TranslateTest extends DatabaseTestCase
                 'id' => 1,
                 'title' => 'заголовок первой страницы',
                 'description' => 'описание первого поста',
+                'status_id' => 1,
             ],
             1 => [
                 'id' => 2,
                 'title' => 'title of the second post',
                 'description' => 'description of the second post',
+                'status_id' => 2,
             ],
         ];
 
@@ -62,6 +64,7 @@ class TranslateTest extends DatabaseTestCase
         $model = new Post([
             'titleLang' => 'test for the create new post',
             'description' => 'description for the create new post',
+            'status_id' => 1
         ]);
 
         $this->assertTrue($model->save(false));
@@ -271,5 +274,32 @@ class TranslateTest extends DatabaseTestCase
         $this->assertFalse($model->isAttributeChanged('titleLang'));
         $model->titleLang = 'test';
         $this->assertTrue($model->isAttributeChanged('titleLang'));
+    }
+
+    public function testJoinCurrentTranslateRelation()
+    {
+        $query = Post::find()
+            ->joinWith([
+                'currentTranslate',
+                'status.currentTranslate',
+            ], false);
+
+        $this->assertEquals(
+            $query->createCommand()->getRawSql(),
+            "SELECT `post`.* FROM `post` LEFT JOIN `post_lang` ON `post`.`id` = `post_lang`.`post_id` LEFT JOIN `status` ON `post`.`status_id` = `status`.`id` LEFT JOIN `status_lang` ON `status`.`id` = `status_lang`.`status_id` WHERE (`post_lang`.`lang_id`='en') AND (`status_lang`.`lang_id`='en')"
+        );
+
+        Yii::$app->language = 'ru-RU';
+
+        $query = Post::find()
+            ->joinWith([
+                'currentTranslate',
+                'status.currentTranslate',
+            ], false);
+
+        $this->assertEquals(
+            $query->createCommand()->getRawSql(),
+            "SELECT `post`.* FROM `post` LEFT JOIN `post_lang` ON `post`.`id` = `post_lang`.`post_id` LEFT JOIN `status` ON `post`.`status_id` = `status`.`id` LEFT JOIN `status_lang` ON `status`.`id` = `status_lang`.`status_id` WHERE (`post_lang`.`lang_id` IN ('ru', 'en')) AND (`status_lang`.`lang_id` IN ('ru', 'en'))"
+        );
     }
 }
