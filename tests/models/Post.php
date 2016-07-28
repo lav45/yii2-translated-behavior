@@ -11,6 +11,7 @@ use lav45\translate\TranslatedBehavior;
  * @package tests\models
  *
  * @property integer $id
+ * @property integer $status_id
  *
  * @property PostLang[] $postLangs
  * @property Status $status

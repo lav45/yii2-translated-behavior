@@ -52,7 +52,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             $this->template .= ' {' . $name . '}';
             if (!isset($this->buttons[$name])) {
                 $this->buttons[$name] = function() use ($lang, $lang_id) {
-                    /** @var TranslatedTrait $model */
+                    /** @var \lav45\translate\TranslatedTrait $model */
                     $model = func_get_arg(1);
                     $key = func_get_arg(2);
 
