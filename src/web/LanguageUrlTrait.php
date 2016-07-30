@@ -36,7 +36,7 @@ trait LanguageUrlTrait
     public function getLanguage()
     {
         if ($this->_language === null) {
-            $this->_language = $this->getPrimaryLanguage(Yii::$app->language);
+            $this->setLanguage(Yii::$app->language);
         }
         return $this->_language;
     }
@@ -46,7 +46,7 @@ trait LanguageUrlTrait
      */
     public function setLanguage($locale)
     {
-        $this->_language = empty($locale) ? null : $this->getPrimaryLanguage($locale);
+        $this->_language = $this->getPrimaryLanguage($locale);
     }
 
     /**
