@@ -1,9 +1,12 @@
 <?php
 
 use yii\db\Migration;
+use lav45\translate\LocaleHelperTrait;
 
 class m151220_112320_lang extends Migration
 {
+    use LocaleHelperTrait;
+
     public function safeUp()
     {
         $tableOptions = null;
@@ -23,16 +26,19 @@ class m151220_112320_lang extends Migration
         $this->createIndex('lang_name_idx', 'lang', 'name', true);
         $this->createIndex('lang_status_idx', 'lang', 'status');
 
-        $this->insert('lang', [
-            'id' => 'en',
-            'locale' => 'en-US',
-            'name' => 'ENG',
+        $source_language = Yii::$app->sourceLanguage;
+        $source_language_id = $this->getPrimaryLanguage($source_language);
+
+        $this->insert('{{%lang}}', [
+            'id' => strtolower($source_language_id),
+            'locale' => $source_language,
+            'name' => strtoupper($source_language_id),
             'status' => 10,
         ]);
     }
 
     public function safeDown()
     {
-        $this->dropTable('lang');
+        $this->dropTable('{{%lang}}');
     }
 }
