@@ -5,21 +5,21 @@ php:
   - 5.5
   - 5.6
   - 7.0
+  - 7.1
   - hhvm
 
 matrix:
   fast_finish: true
 
 install:
-  - composer self-update
-  - composer --version
-  - composer install --prefer-dist --no-interaction --no-plugins
-  - composer show -i
+  - composer install --prefer-dist --no-interaction
 
 before_script:
   - |
     if [ $TRAVIS_PHP_VERSION = '5.4' ]; then
-      PHPUNIT_FLAGS="--coverage-clover=coverage.clover"
+      composer require codeclimate/php-test-reporter --dev
+      composer require scrutinizer/ocular --dev
+      PHPUNIT_FLAGS="--coverage-clover build/logs/clover.xml"
     fi
 
 script:
@@ -28,6 +28,6 @@ script:
 after_script:
   - |
     if [ $TRAVIS_PHP_VERSION = '5.4' ]; then
-      wget https://scrutinizer-ci.com/ocular.phar
-      php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+      CODECLIMATE_REPO_TOKEN=480c32e8378bd255a6a12e4a1821d8aac01d85e701d1dfc5935bd1727fcb921d ./vendor/bin/test-reporter
+      vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
     fi

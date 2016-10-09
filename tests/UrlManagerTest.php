@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: lav45
- * Date: 21.12.15
- * Time: 0:59
+ * Date: 09.10.16
+ * Time: 15:15
  */
 
 namespace tests;
@@ -12,7 +12,7 @@ use Yii;
 use yii\web\Application;
 use lav45\translate\models\Lang;
 
-class UrlRuleTest extends \PHPUnit_Framework_TestCase
+class UrlManagerTest extends \PHPUnit_Framework_TestCase
 {
     protected function mockWebApplication()
     {
@@ -21,6 +21,7 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
             'basePath' => __DIR__,
             'components' => [
                 'urlManager' => [
+                    'class' => 'lav45\translate\web\UrlManager',
                     'baseUrl' => '',
                     'hostInfo' => 'http://site.com',
                     'scriptUrl' => '/index.php',
@@ -28,12 +29,10 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
                     'enablePrettyUrl' => true,
                     'rules' => [
                         [
-                            'class' => 'lav45\translate\web\UrlRule',
                             'pattern' => '<_lang:' . Lang::PATTERN . '>',
                             'route' => 'page/index',
                         ],
                         [
-                            'class' => 'lav45\translate\web\UrlRule',
                             'pattern' => '<_lang:' . Lang::PATTERN . '>/<name:[\w\-]+>',
                             'route' => 'page/view',
                             'suffix' => '.html',
@@ -56,8 +55,8 @@ class UrlRuleTest extends \PHPUnit_Framework_TestCase
             '/ru/test-page.html?param=value' => ['page/view', 'name' => 'test-page', '_lang' => 'ru', 'param' => 'value'],
 
             '/' => '/',
-            '/site/index' => ['site/index'],
-            '/site/index?param=val' => ['site/index', 'param' => 'val'],
+            '/site/index?_lang=en' => ['site/index'],
+            '/site/index?param=val&_lang=en' => ['site/index', 'param' => 'val'],
             '/site/index?param=val&_lang=ru' => ['site/index', 'param' => 'val', '_lang' => 'ru'],
         ];
 
