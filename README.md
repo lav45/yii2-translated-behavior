@@ -1,6 +1,7 @@
 yii2-translated-behavior
 ===================
 
+[![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)
 [![Latest Stable Version](https://poser.pugx.org/lav45/yii2-translated-behavior/v/stable)](https://packagist.org/packages/lav45/yii2-translated-behavior)
 [![License](https://poser.pugx.org/lav45/yii2-translated-behavior/license)](https://packagist.org/packages/lav45/yii2-translated-behavior)
 [![Total Downloads](https://poser.pugx.org/lav45/yii2-translated-behavior/downloads)](https://packagist.org/packages/lav45/yii2-translated-behavior)
