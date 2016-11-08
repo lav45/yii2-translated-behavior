@@ -42,7 +42,7 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function getLanguage()
     {
-        if ($this->_language === null) {
+        if (empty($this->_language)) {
             $this->setLanguage(Yii::$app->language);
         }
         return $this->_language;
@@ -61,7 +61,7 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function getSourceLanguage()
     {
-        if ($this->_sourceLanguage === null) {
+        if (empty($this->_sourceLanguage)) {
             $this->setSourceLanguage(Yii::$app->sourceLanguage);
         }
         return $this->_sourceLanguage;
