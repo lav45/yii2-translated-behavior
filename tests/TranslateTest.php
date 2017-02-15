@@ -232,7 +232,9 @@ class TranslateTest extends DatabaseTestCase
         $this->assertFalse(isset($model->id));
         $this->assertFalse(isset($model->titleLang));
         $this->assertFalse(isset($model->description));
-        $this->assertFalse(isset($model->lang_id));
+
+        $this->assertTrue(isset($model->lang_id));
+        $this->assertEquals($model->lang_id, $model->getSourceLanguage());
 
         $this->assertTrue(isset($model->language));
         $this->assertTrue(isset($model->translation));
