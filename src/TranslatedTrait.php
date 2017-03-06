@@ -34,6 +34,26 @@ trait TranslatedTrait
         return isset($this['hasTranslate'][$language]);
     }
 
+    public function getAttribute($name)
+    {
+        $result = parent::getAttribute($name);
+        if ($result === null) {
+            $name = $this->getTranslateAttributeName($name);
+            $result = $this->getTranslation()->getAttribute($name);
+        }
+        return  $result;
+    }
+
+    public function getOldAttribute($name)
+    {
+        $result = parent::getOldAttribute($name);
+        if ($result === null) {
+            $name = $this->getTranslateAttributeName($name);
+            $result = $this->getTranslation()->getOldAttribute($name);
+        }
+        return $result;
+    }
+
     /**
      * Returns a value indicating whether the named attribute has been changed
      * or attribute has been changed in translation relation model.
@@ -44,10 +64,11 @@ trait TranslatedTrait
      */
     public function isAttributeChanged($name, $identical = true)
     {
-        if (parent::isAttributeChanged($name, $identical) === true) {
-            return true;
+        $result = parent::isAttributeChanged($name, $identical);
+        if ($result === false) {
+            $name = $this->getTranslateAttributeName($name);
+            $result = $this->getTranslation()->isAttributeChanged($name, $identical);
         }
-        $attributeName = $this->getTranslateAttributeName($name);
-        return $this->getTranslation()->isAttributeChanged($attributeName, $identical);
+        return $result;
     }
 }
