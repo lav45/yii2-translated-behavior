@@ -249,7 +249,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         $table = $class::tableName();
 
         return $this->getRelation()
-            ->where([$table . '.' . $this->languageAttribute => $langList])
+            ->onCondition([$table . '.' . $this->languageAttribute => $langList])
             ->indexBy($this->languageAttribute);
     }
 }
