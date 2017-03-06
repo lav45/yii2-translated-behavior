@@ -172,9 +172,27 @@ class TranslateTest extends DatabaseTestCase
             ->where(['id' => 1])
             ->one();
 
-        $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs']);
+        $this->assertEquals(['postLangs'], array_keys($model->getRelatedRecords()));
         $this->assertEquals($model->titleLang, 'title of the first post');
-        $this->assertEquals(array_keys($model->getRelatedRecords()), ['postLangs', 'currentTranslate']);
+        $this->assertEquals(['postLangs'], array_keys($model->getRelatedRecords()));
+
+        /** @var Post $model */
+        $model = Post::find()
+            ->where(['id' => 1])
+            ->one();
+
+        $this->assertEquals($model->titleLang, 'title of the first post');
+        $this->assertEquals(['currentTranslate', 'postLangs'], array_keys($model->getRelatedRecords()));
+
+        /** @var Post $model */
+        $model = Post::find()
+            ->with(['currentTranslate'])
+            ->where(['id' => 1])
+            ->one();
+
+        $this->assertEquals(['currentTranslate'], array_keys($model->getRelatedRecords()));
+        $this->assertEquals($model->titleLang, 'title of the first post');
+        $this->assertEquals(['currentTranslate', 'postLangs'], array_keys($model->getRelatedRecords()));
     }
 
     public function testCallTranslateMethod()

@@ -60,7 +60,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
 
     public function eventAfterSave()
     {
-        $this->owner->link('currentTranslate', $this->getTranslation());
+        $this->owner->link($this->translateRelation, $this->getTranslation());
     }
 
     public function eventBeforeDelete()
@@ -99,11 +99,13 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     protected function getTranslateRelations()
     {
         $records = $this->owner->getRelatedRecords();
-        if (!isset($records['currentTranslate']) && isset($records[$this->translateRelation])) {
-            $translations = ArrayHelper::index($this->owner->{$this->translateRelation}, $this->languageAttribute);
+        if (isset($records[$this->translateRelation])) {
+            $translations = ArrayHelper::index($records[$this->translateRelation], $this->languageAttribute);
             $this->setTranslateRelations($translations);
+        } else {
+            $this->setTranslateRelations($this->owner['currentTranslate']);
         }
-        return $this->owner['currentTranslate'];
+        return $this->owner->{$this->translateRelation};
     }
 
     /**
@@ -111,7 +113,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     protected function setTranslateRelations($models)
     {
-        $this->owner->populateRelation('currentTranslate', $models);
+        $this->owner->populateRelation($this->translateRelation, $models);
     }
 
     /**
