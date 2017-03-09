@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-    <lang id="en" />
-    <lang id="ru" />
-    <lang id="fr" />
-
     <post id="1" status_id="1" />
     <post id="2" status_id="2" />
 

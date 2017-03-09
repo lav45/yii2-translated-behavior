@@ -324,4 +324,37 @@ class TranslateTest extends DatabaseTestCase
 
         $this->assertEquals($sql,"SELECT `post`.* FROM `post` LEFT JOIN `post_lang` ON (`post`.`id` = `post_lang`.`post_id`) AND (`post_lang`.`lang_id` IN ('ru', 'en')) LEFT JOIN `status` ON `post`.`status_id` = `status`.`id` LEFT JOIN `status_lang` ON (`status`.`id` = `status_lang`.`status_id`) AND (`status_lang`.`lang_id` IN ('ru', 'en'))");
     }
+
+    public function testCustomPrimaryLanguage()
+    {
+        Yii::$container->set('lav45\translate\TranslatedBehavior', [
+            'primaryLanguage' => function($locale) {
+                return strtolower($locale);
+            }
+        ]);
+
+        $model = new Post;
+        $model->status_id = 1;
+        $model->title = 'title of the post US';
+        $model->description = 'description of the post US';
+        $model->titleLang = 'title of the post US';
+        $model->save(false);
+
+        $this->assertEquals('en-us', $model->lang_id);
+
+        $model->language = 'en-GB';
+        $model->titleLang = 'title of the post GB';
+        $model->save(false);
+
+        $this->assertEquals('en-gb', $model->lang_id);
+
+        /** @var Post $data */
+        $data = Post::findOne($model->id);
+        $this->assertEquals('title of the post US', $data->titleLang);
+
+        Yii::$app->language = 'en-GB';
+        /** @var Post $data */
+        $data = Post::findOne($model->id);
+        $this->assertEquals('title of the post GB', $data->titleLang);
+    }
 }
