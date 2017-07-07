@@ -50,4 +50,25 @@ trait TranslatedTrait
         $attributeName = $this->getTranslateAttributeName($name);
         return $this->getTranslation()->isAttributeChanged($attributeName, $identical);
     }
+
+    /**
+     * Loads default values from database table schema
+     *
+     * You may call this method to load default values after creating a new instance:
+     *
+     * ```php
+     * // class Customer extends \yii\db\ActiveRecord
+     * $customer = new Customer();
+     * $customer->loadDefaultValues();
+     * ```
+     *
+     * @param bool $skipIfSet whether existing value should be preserved.
+     * This will only set defaults for attributes that are `null`.
+     * @return $this the model instance itself.
+     */
+    public function loadDefaultValues($skipIfSet = true)
+    {
+        $this->getTranslation()->loadDefaultValues($skipIfSet);
+        return parent::loadDefaultValues($skipIfSet);
+    }
 }
