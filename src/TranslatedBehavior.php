@@ -45,7 +45,11 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      * @var string the translations model language attribute name
      */
     public $languageAttribute = 'lang_id';
-
+    /**
+     * @var bool
+     */
+    public $deleteCascade = false;
+    
     /**
      * @inheritdoc
      */
@@ -65,7 +69,13 @@ class TranslatedBehavior extends BaseTranslatedBehavior
 
     public function eventBeforeDelete()
     {
-        $this->owner->unlinkAll($this->translateRelation, true);
+        if ($this->deleteCascade === false) {
+            $this->owner->unlinkAll($this->translateRelation, true);
+        } else {
+            foreach ($this->getTranslateRelations() as $item) {
+                $item->delete();
+            }
+        }
     }
 
     /**
