@@ -5,7 +5,7 @@ yii2-translated-behavior
 [![Latest Stable Version](https://poser.pugx.org/lav45/yii2-translated-behavior/v/stable)](https://packagist.org/packages/lav45/yii2-translated-behavior)
 [![License](https://poser.pugx.org/lav45/yii2-translated-behavior/license)](https://packagist.org/packages/lav45/yii2-translated-behavior)
 [![Total Downloads](https://poser.pugx.org/lav45/yii2-translated-behavior/downloads)](https://packagist.org/packages/lav45/yii2-translated-behavior)
-[![Build Status](https://travis-ci.org/LAV45/yii2-translated-behavior.svg?branch=master)](https://travis-ci.org/LAV45/yii2-translated-behavior)
+[![Build Status](https://travis-ci.org/lav45/yii2-translated-behavior.svg?branch=master)](https://travis-ci.org/lav45/yii2-translated-behavior)
 [![Test Coverage](https://codeclimate.com/github/LAV45/yii2-translated-behavior/badges/coverage.svg)](https://codeclimate.com/github/LAV45/yii2-translated-behavior/coverage)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/)
 [![Code Climate](https://codeclimate.com/github/LAV45/yii2-translated-behavior/badges/gpa.svg)](https://codeclimate.com/github/LAV45/yii2-translated-behavior)

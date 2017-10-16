@@ -302,16 +302,6 @@ class TranslateTest extends DatabaseTestCase
 
     public function testJoinCurrentTranslateRelation()
     {
-        $sql = Post::find()
-            ->joinWith([
-                'currentTranslate',
-                'status.currentTranslate',
-            ], false)
-            ->createCommand()
-            ->getRawSql();
-
-        $this->assertEquals($sql,"SELECT `post`.* FROM `post` LEFT JOIN `post_lang` ON (`post`.`id` = `post_lang`.`post_id`) AND (`post_lang`.`lang_id`='en') LEFT JOIN `status` ON `post`.`status_id` = `status`.`id` LEFT JOIN `status_lang` ON (`status`.`id` = `status_lang`.`status_id`) AND (`status_lang`.`lang_id`='en')");
-
         Yii::$app->language = 'ru-RU';
 
         $sql = Post::find()

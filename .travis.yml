@@ -1,27 +1,30 @@
-dist: trusty
-
 language: php
 
-php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7.0
-  - 7.1
-  - hhvm
-  - nightly
+env:
+  global:
+    - TASK_TESTS_COVERAGE=0
 
 matrix:
   fast_finish: true
+  include:
+    - php: nightly
+    - php: 7.2
+    - php: 7.1
+    - php: 7.0
+      env: TASK_TESTS_COVERAGE=1
+    - php: 5.6
+    - php: 5.5
+    - php: 5.4
+
   allow_failures:
     - php: nightly
 
 install:
-  - composer install --prefer-dist --no-interaction
+  - composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
 before_script:
   - |
-    if [ $TRAVIS_PHP_VERSION = '5.4' ]; then
+    if [ $TASK_TESTS_COVERAGE == 1 ] ; then
       composer require codeclimate/php-test-reporter --dev
       composer require scrutinizer/ocular --dev
       PHPUNIT_FLAGS="--coverage-clover build/logs/clover.xml"
@@ -32,7 +35,7 @@ script:
 
 after_script:
   - |
-    if [ $TRAVIS_PHP_VERSION = '5.4' ]; then
+    if [ $TASK_TESTS_COVERAGE == 1 ] ; then
       CODECLIMATE_REPO_TOKEN=480c32e8378bd255a6a12e4a1821d8aac01d85e701d1dfc5935bd1727fcb921d ./vendor/bin/test-reporter
       vendor/bin/ocular code-coverage:upload --format=php-clover build/logs/clover.xml
     fi
