@@ -27,7 +27,6 @@ trait LocaleHelperTrait
             return call_user_func($this->primaryLanguage, $locale);
         }
         return extension_loaded('intl') ?
-            Locale::getPrimaryLanguage($locale) :
-            substr($locale, 0, 2);
+            Locale::getPrimaryLanguage($locale) : substr($locale, 0, 2);
     }
 }
