@@ -4,6 +4,7 @@ namespace lav45\translate\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use lav45\translate\LocaleHelperTrait;
 
 /**
@@ -13,6 +14,9 @@ use lav45\translate\LocaleHelperTrait;
  * @property string $locale
  * @property string $name
  * @property integer $status
+ *
+ * @property array $statusList
+ * @property string $statusName
  */
 class Lang extends ActiveRecord
 {
@@ -92,6 +96,14 @@ class Lang extends ActiveRecord
             static::STATUS_ACTIVE => Yii::t('app', 'Active'),
             static::STATUS_DISABLE => Yii::t('app', 'Disable'),
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue($this->getStatusList(), $this->status);
     }
 
     /**
