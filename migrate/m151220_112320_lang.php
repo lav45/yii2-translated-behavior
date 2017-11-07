@@ -23,8 +23,8 @@ class m151220_112320_lang extends Migration
             'PRIMARY KEY (id)',
         ], $tableOptions);
 
-        $this->createIndex('lang_name_idx', 'lang', 'name', true);
-        $this->createIndex('lang_status_idx', 'lang', 'status');
+        $this->createIndex('lang_name_idx', '{{%lang}}', 'name', true);
+        $this->createIndex('lang_status_idx', '{{%lang}}', 'status');
 
         $source_language = Yii::$app->sourceLanguage;
         $source_language_id = $this->getPrimaryLanguage($source_language);

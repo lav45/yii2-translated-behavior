@@ -59,7 +59,7 @@ class Lang extends ActiveRecord
 
             [['id', 'status', 'locale'], function($attribute) {
                 if ($this->isAttributeChanged($attribute, false) && $this->isSourceLanguage()) {
-                    $this->addError($attribute, 'This field is not editable.');
+                    $this->addError($attribute, Yii::t('app', 'This field is not editable.'));
                 }
             }],
         ];
@@ -71,10 +71,10 @@ class Lang extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'locale' => 'Locale',
-            'name' => 'Name',
-            'status' => 'Status',
+            'id' => Yii::t('app', 'ID'),
+            'locale' => Yii::t('app', 'Locale'),
+            'name' => Yii::t('app', 'Name'),
+            'status' => Yii::t('app', 'Status'),
         ];
     }
 
@@ -89,8 +89,8 @@ class Lang extends ActiveRecord
     public function getStatusList()
     {
         return [
-            static::STATUS_ACTIVE => 'Active',
-            static::STATUS_DISABLE => 'Disable',
+            static::STATUS_ACTIVE => Yii::t('app', 'Active'),
+            static::STATUS_DISABLE => Yii::t('app', 'Disable'),
         ];
     }
 

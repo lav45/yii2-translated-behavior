@@ -23,11 +23,11 @@ trait LocaleHelperTrait
      */
     public function getPrimaryLanguage($locale)
     {
-        if ($this->primaryLanguage === null) {
-            return extension_loaded('intl') ?
-                Locale::getPrimaryLanguage($locale) : substr($locale, 0, 2);
-        } else {
+        if ($this->primaryLanguage !== null && is_callable($this->primaryLanguage)) {
             return call_user_func($this->primaryLanguage, $locale);
         }
+        return extension_loaded('intl') ?
+            Locale::getPrimaryLanguage($locale) :
+            substr($locale, 0, 2);
     }
 }
