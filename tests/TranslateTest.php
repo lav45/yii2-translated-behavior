@@ -59,6 +59,23 @@ class TranslateTest extends DatabaseTestCase
         $this->assertEquals($data, $posts);
     }
 
+    public function testSwitchLanguage()
+    {
+        /** @var Post $model */
+        $model = Post::find()
+            ->with('postLangs')
+            ->where(['id' => 1])
+            ->one();
+
+        $this->assertEquals('description the first post', $model->description);
+
+        $model->setLanguage('ru');
+        $this->assertEquals('описание первого поста', $model->description);
+
+        $model->setLanguage('fr');
+        $this->assertEquals('description the first post', $model->description);
+    }
+
     public function testCreatePost()
     {
         $model = new Post([
