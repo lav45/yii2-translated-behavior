@@ -1,18 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lav45
- * Date: 09.10.16
- * Time: 15:15
- */
 
 namespace tests;
 
 use Yii;
 use yii\web\Application;
 use lav45\translate\models\Lang;
+use PHPUnit\Framework\TestCase;
 
-class UrlManagerTest extends \PHPUnit_Framework_TestCase
+class UrlManagerTest extends TestCase
 {
     protected function mockWebApplication()
     {

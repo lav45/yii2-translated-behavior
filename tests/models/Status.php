@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lav45
- * Date: 28.07.16
- * Time: 2:19
- */
 
 namespace tests\models;
 

@@ -11,4 +11,10 @@ Yii::setAlias('@tests', __DIR__);
 new \yii\console\Application([
     'id' => 'unit',
     'basePath' => __DIR__,
+    'components' => [
+        'db' => [
+            'class' => \yii\db\Connection::className(),
+            'dsn' => 'sqlite::memory:',
+        ],
+    ]
 ]);

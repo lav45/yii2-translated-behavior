@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: loal
- * Date: 04.07.16
- * Time: 15:10
+ * @link https://github.com/LAV45/yii2-translated-behavior
+ * @copyright Copyright (c) 2015 LAV45!
+ * @author Alexey Loban <lav451@gmail.com>
+ * @license http://opensource.org/licenses/BSD-3-Clause
  */
 
 namespace lav45\translate;

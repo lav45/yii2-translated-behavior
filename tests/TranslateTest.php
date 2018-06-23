@@ -8,10 +8,6 @@ use yii\db\ActiveQuery;
 use tests\models\Post;
 use tests\models\Status;
 
-/**
- * Class TranslateTest
- * @package tests
- */
 class TranslateTest extends DatabaseTestCase
 {
     /**
