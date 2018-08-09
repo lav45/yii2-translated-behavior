@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\models;
+namespace lav45\translate\test\models;
 
 use yii\db\ActiveRecord;
 

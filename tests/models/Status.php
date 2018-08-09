@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\models;
+namespace lav45\translate\test\models;
 
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedBehavior;
@@ -32,7 +32,7 @@ class Status extends ActiveRecord
     {
         return [
             [
-                'class' => TranslatedBehavior::className(),
+                '__class' => TranslatedBehavior::class,
                 'translateRelation' => 'statusLangs',
                 'translateAttributes' => [
                     'title',
@@ -46,6 +46,6 @@ class Status extends ActiveRecord
      */
     public function getStatusLangs()
     {
-        return $this->hasMany(StatusLang::className(), ['status_id' => 'id']);
+        return $this->hasMany(StatusLang::class, ['status_id' => 'id']);
     }
 }

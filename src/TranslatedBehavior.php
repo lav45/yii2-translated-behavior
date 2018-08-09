@@ -20,7 +20,7 @@ use yii\helpers\ArrayHelper;
  * {
  *     return [
  *         [
- *             'class' => TranslatedBehavior::className(),
+ *             '__class' => TranslatedBehavior::class,
  *             'translateRelation' => 'postLangs',
  *             'translateAttributes' => [
  *                 'titleLang' => 'title',
@@ -146,7 +146,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     {
         return $this->isAttribute($name) ||
         parent::canGetProperty($name, $checkVars) ||
-        (is_object($this->getTranslation()) && $this->getTranslation()->canGetProperty($name, $checkVars));
+        (\is_object($this->getTranslation()) && $this->getTranslation()->canGetProperty($name, $checkVars));
     }
 
     /**
@@ -156,7 +156,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     {
         return $this->isAttribute($name) ||
         parent::canSetProperty($name, $checkVars) ||
-        (is_object($this->getTranslation()) && $this->getTranslation()->canSetProperty($name, $checkVars));
+        (\is_object($this->getTranslation()) && $this->getTranslation()->canSetProperty($name, $checkVars));
     }
 
     /**
@@ -167,10 +167,9 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         $getter = 'get' . $name;
         if (method_exists($this, $getter)) {
             return $this->$getter();
-        } else {
-            $name = $this->getTranslateAttributeName($name) ?: $name;
-            return $this->getTranslation()[$name];
         }
+        $name = $this->getTranslateAttributeName($name) ?: $name;
+        return $this->getTranslation()[$name];
     }
 
     /**
@@ -198,7 +197,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function hasMethod($name)
     {
         return parent::hasMethod($name) ||
-        is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name);
+            (\is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name));
     }
 
     /**
@@ -212,7 +211,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     public function __call($name, $params)
     {
-        return call_user_func_array([$this->getTranslation(), $name], $params);
+        return \call_user_func_array([$this->getTranslation(), $name], $params);
     }
 
     /**

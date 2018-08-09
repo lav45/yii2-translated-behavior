@@ -81,9 +81,9 @@ class Post extends ActiveRecord
     {
         return [
             [
-                'class' => TranslatedBehavior::className(),
+                '__class' => TranslatedBehavior::class,
                 'translateRelation' => 'postLangs', // Указываем имя связи в которой будут храниться переводы
-//                'languageAttribute' => 'lang_id' // Поле из таблицы post_lang в котором будет храниться язык перевода
+                // 'languageAttribute' => 'lang_id' // Поле из таблицы post_lang в котором будет храниться язык перевода
                 'translateAttributes' => [
                     'title',
                     'description',
@@ -129,7 +129,7 @@ class Post extends ActiveRecord
 
 backend/config/bootstrap.php
 ```php
-Yii::$container->set('lav45\translate\TranslatedBehavior', [
+Yii::$container->set(\lav45\translate\TranslatedBehavior::class, [
     'language' => isset($_GET['lang_id']) ? $_GET['lang_id'] : null
 ]);
 ```
@@ -171,11 +171,11 @@ backend/view/post/index.php
         'dataProvider' => $dataProvider,
         'columns' => [
             [
-                'class' => 'lav45\translate\grid\ActionColumn',
+                '__class' => \lav45\translate\grid\ActionColumn::class,
                 'languages' => $langList,
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                '__class' => \yii\grid\ActionColumn::class,
                 'template' => '{delete}'
             ],
         ],
@@ -206,12 +206,12 @@ use lav45\translate\models\Lang;
 return [
     'components' => [
         'urlManager' => [
-            'class' => 'lav45\translate\web\UrlManager',
+            '__class' => \lav45\translate\web\UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 [
-                    'class' => 'yii\web\UrlRule', // Если не нужно подставлять язык, можно использовать базовый класс
+                    '__class' => \yii\web\UrlRule::class, // Если не нужно подставлять язык, можно использовать базовый класс
                     'pattern' => '',
                     'route' => 'post/index',
                 ],
@@ -245,7 +245,7 @@ class PostController extends Controller
             [
               // ContentNegotiator будет отпределять из URL или настроек браузера язык и устанавливать его в
               // Yii::$app->language, каторый использует класс TranslatedBehavior как язык перевода
-                'class' => 'yii\filters\ContentNegotiator',
+                '__class' => \yii\filters\ContentNegotiator::class,
                 'languages' => Lang::getLocaleList()
             ],
         ];
@@ -258,7 +258,7 @@ class PostController extends Controller
 \yii\base\Event::on('yii\base\Controller', 'beforeAction', function($event) {
     /** @var yii\filters\ContentNegotiator $negotiator */
     $negotiator = Yii::createObject([
-        'class' => 'yii\filters\ContentNegotiator',
+        '__class' => \yii\filters\ContentNegotiator::class,
         'languages' => \common\models\Lang::getLocaleList(),
     ]);
     /** @var yii\base\ActionEvent $event */

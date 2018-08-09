@@ -1,6 +1,6 @@
 <?php
 
-namespace tests;
+namespace lav45\translate\test;
 
 use Yii;
 use yii\web\Application;
@@ -23,12 +23,12 @@ class UrlRuleTest extends TestCase
                     'enablePrettyUrl' => true,
                     'rules' => [
                         [
-                            'class' => 'lav45\translate\web\UrlRule',
+                            '__class' => \lav45\translate\web\UrlRule::class,
                             'pattern' => '<_lang:' . Lang::PATTERN . '>',
                             'route' => 'page/index',
                         ],
                         [
-                            'class' => 'lav45\translate\web\UrlRule',
+                            '__class' => \lav45\translate\web\UrlRule::class,
                             'pattern' => '<_lang:' . Lang::PATTERN . '>/<name:[\w\-]+>',
                             'route' => 'page/view',
                             'suffix' => '.html',
@@ -71,5 +71,4 @@ class UrlRuleTest extends TestCase
             $this->assertEquals($urlManager->createUrl($params), $result);
         }
     }
-
 }

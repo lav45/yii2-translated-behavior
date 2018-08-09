@@ -28,11 +28,11 @@ class LangCache extends Lang
     public $cache = 'cache';
 
     /**
-     * @return \yii\caching\CacheInterface
+     * @return object|CacheInterface
      */
     public function getCache()
     {
-        return Instance::ensure($this->cache, 'yii\caching\CacheInterface');
+        return Instance::ensure($this->cache, CacheInterface::class);
     }
 
     /**

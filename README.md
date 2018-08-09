@@ -9,7 +9,7 @@ yii2-translated-behavior
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lav45/yii2-translated-behavior/)
 [![Code Climate](https://codeclimate.com/github/LAV45/yii2-translated-behavior/badges/gpa.svg)](https://codeclimate.com/github/LAV45/yii2-translated-behavior)
 
-The Translated Behavior is a Yii2 extension for ActiveRecord models, that will help you add the possibility of transferring any entity.
+The Translated Behavior is a Yii 3.0 extension for ActiveRecord models, that will help you add the possibility of transferring any entity.
 
 You can see [DEMO](https://yii2-translated-behavior.lav45.com) 
 
@@ -81,9 +81,9 @@ class Post extends ActiveRecord
     {
         return [
             [
-                'class' => TranslatedBehavior::className(),
+                '__class' => TranslatedBehavior::class,
                 'translateRelation' => 'postLangs', // Specify the name of the connection that will store transfers
-//                'languageAttribute' => 'lang_id' // post_lang field from the table that will store the target language
+                // 'languageAttribute' => 'lang_id' // post_lang field from the table that will store the target language
                 'translateAttributes' => [
                     'title',
                     'description',
@@ -129,7 +129,7 @@ Apply with the console command:
 
 backend/config/bootstrap.php
 ```php
-Yii::$container->set('lav45\translate\TranslatedBehavior', [
+Yii::$container->set(\lav45\translate\TranslatedBehavior::class, [
     'language' => isset($_GET['lang_id']) ? $_GET['lang_id'] : null
 ]);
 ```
@@ -171,11 +171,11 @@ backend/view/post/index.php
         'dataProvider' => $dataProvider,
         'columns' => [
             [
-                'class' => 'lav45\translate\grid\ActionColumn',
+                '__class' => \lav45\translate\grid\ActionColumn::class,
                 'languages' => $langList,
             ],
             [
-                'class' => 'yii\grid\ActionColumn',
+                '__class' => \yii\grid\ActionColumn::class,
                 'template' => '{delete}'
             ],
         ],
@@ -206,12 +206,12 @@ use lav45\translate\models\Lang;
 return [
     'components' => [
         'urlManager' => [
-            'class' => 'lav45\translate\web\UrlManager',
+            '__class' => \lav45\translate\web\UrlManager::class,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 [
-                    'class' => 'yii\web\UrlRule', // If there is no need to substitute the language, you can use the base class
+                    '__class' => \yii\web\UrlRule::class, // If there is no need to substitute the language, you can use the base class
                     'pattern' => '',
                     'route' => 'post/index',
                 ],
@@ -245,7 +245,7 @@ class PostController extends Controller
             [
               // ContentNegotiator will be determined from a URL or browser language settings and install it in
               // Yii::$app->language, which uses the class TranslatedBehavior as language translation
-                'class' => 'yii\filters\ContentNegotiator',
+                '__class' => \yii\filters\ContentNegotiator::class,
                 'languages' => Lang::getLocaleList()
             ],
         ];
@@ -258,7 +258,7 @@ or you can add for all controllers, for this you need to add in `frontend/config
 \yii\base\Event::on('yii\base\Controller', 'beforeAction', function($event) {
     /** @var yii\filters\ContentNegotiator $negotiator */
     $negotiator = Yii::createObject([
-        'class' => 'yii\filters\ContentNegotiator',
+        '__class' => \yii\filters\ContentNegotiator::class,
         'languages' => \common\models\Lang::getLocaleList(),
     ]);
     /** @var yii\base\ActionEvent $event */

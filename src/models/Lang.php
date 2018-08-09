@@ -153,6 +153,6 @@ class Lang extends ActiveRecord
      */
     public static function find()
     {
-        return new LangQuery(get_called_class());
+        return new LangQuery(static::class);
     }
 }

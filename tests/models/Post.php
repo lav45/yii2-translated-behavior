@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\models;
+namespace lav45\translate\test\models;
 
 use yii\db\ActiveRecord;
 use lav45\translate\TranslatedTrait;
@@ -74,7 +74,7 @@ class Post extends ActiveRecord
     {
         return [
             [
-                'class' => TranslatedBehavior::className(),
+                '__class' => TranslatedBehavior::class,
                 'translateRelation' => 'postLangs',
                 'translateAttributes' => [
                     'titleLang' => 'title',
@@ -89,7 +89,7 @@ class Post extends ActiveRecord
      */
     public function getPostLangs()
     {
-        return $this->hasMany(PostLang::className(), ['post_id' => 'id']);
+        return $this->hasMany(PostLang::class, ['post_id' => 'id']);
     }
 
     /**
@@ -97,6 +97,6 @@ class Post extends ActiveRecord
      */
     public function getStatus()
     {
-        return $this->hasOne(Status::className(), ['id' => 'status_id']);
+        return $this->hasOne(Status::class, ['id' => 'status_id']);
     }
 }

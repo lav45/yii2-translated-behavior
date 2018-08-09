@@ -1,6 +1,6 @@
 <?php
 
-namespace tests;
+namespace lav45\translate\test;
 
 use Yii;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace tests;
+namespace lav45\translate\test;
 
 use Yii;
 use yii\db\ActiveQuery;
 
-use tests\models\Post;
-use tests\models\Status;
+use lav45\translate\test\models\Post;
+use lav45\translate\test\models\Status;
 
 class TranslateTest extends DatabaseTestCase
 {
@@ -18,12 +18,12 @@ class TranslateTest extends DatabaseTestCase
         parent::setUp();
 
         Yii::$app->language = Yii::$app->sourceLanguage;
-        Yii::$container->set('lav45\translate\TranslatedBehavior', []);
+        Yii::$container->set(\lav45\translate\TranslatedBehavior::class, []);
     }
 
     public function testFindPosts()
     {
-        Yii::$container->set('lav45\translate\TranslatedBehavior', [
+        Yii::$container->set(\lav45\translate\TranslatedBehavior::class, [
             'language' => 'ru'
         ]);
 
@@ -159,7 +159,7 @@ class TranslateTest extends DatabaseTestCase
 
         /** @var Post $model */
         $model = Post::findOne(1);
-        $this->assertTrue(count($model->currentTranslate) == 2);
+        $this->assertCount(2, $model->currentTranslate);
 
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en', 'ru'];
@@ -170,7 +170,7 @@ class TranslateTest extends DatabaseTestCase
 
         /** @var Post $model */
         $model = Post::findOne(1);
-        $this->assertTrue(count($model->currentTranslate) == 1);
+        $this->assertCount(1, $model->currentTranslate);
 
         $data = array_keys($model->currentTranslate);
         $expectedData = ['en'];

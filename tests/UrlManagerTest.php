@@ -1,6 +1,6 @@
 <?php
 
-namespace tests;
+namespace lav45\translate\test;
 
 use Yii;
 use yii\web\Application;
@@ -16,7 +16,7 @@ class UrlManagerTest extends TestCase
             'basePath' => __DIR__,
             'components' => [
                 'urlManager' => [
-                    'class' => 'lav45\translate\web\UrlManager',
+                    '__class' => \lav45\translate\web\UrlManager::class,
                     'baseUrl' => '',
                     'hostInfo' => 'http://site.com',
                     'scriptUrl' => '/index.php',
@@ -70,5 +70,4 @@ class UrlManagerTest extends TestCase
             $this->assertEquals($urlManager->createUrl($params), $result);
         }
     }
-
 }

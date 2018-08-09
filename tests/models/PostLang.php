@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\models;
+namespace lav45\translate\test\models;
 
 use yii\db\ActiveRecord;
 
@@ -68,7 +68,7 @@ class PostLang extends ActiveRecord
     public function behaviors()
     {
         return [
-            TestBehavior::className()
+            TestBehavior::class
         ];
     }
 }

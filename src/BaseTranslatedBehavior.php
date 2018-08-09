@@ -35,7 +35,7 @@ class BaseTranslatedBehavior extends Behavior
     /**
      * @var array
      */
-    private $attributes = [];
+    private $translate_attributes = [];
 
     /**
      * @return string
@@ -80,7 +80,7 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function getTranslateAttributes()
     {
-        return $this->attributes;
+        return $this->translate_attributes;
     }
 
     /**
@@ -88,10 +88,10 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function setTranslateAttributes(array $attributes)
     {
-        $this->attributes = [];
-        foreach ((array) $attributes as $key => $value) {
-            $key = is_int($key) ? $value : $key;
-            $this->attributes[$key] = $value;
+        $this->translate_attributes = [];
+        foreach ($attributes as $key => $value) {
+            $key = \is_int($key) ? $value : $key;
+            $this->translate_attributes[$key] = $value;
         }
     }
 
@@ -101,7 +101,7 @@ class BaseTranslatedBehavior extends Behavior
      */
     protected function isAttribute($name)
     {
-        return isset($this->attributes[$name]);
+        return isset($this->translate_attributes[$name]);
     }
 
     /**
@@ -110,7 +110,7 @@ class BaseTranslatedBehavior extends Behavior
      */
     public function getTranslateAttributeName($name)
     {
-        return $this->isAttribute($name) ? $this->attributes[$name] : null;
+        return $this->isAttribute($name) ? $this->translate_attributes[$name] : null;
     }
 
     /**

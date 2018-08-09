@@ -28,10 +28,6 @@ class ActionColumn extends \yii\grid\ActionColumn
     /**
      * @var array
      */
-    public $buttons = [];
-    /**
-     * @var array
-     */
     public $languages = [];
     /**
      * @var string
@@ -56,7 +52,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                     $model = func_get_arg(1);
                     $key = func_get_arg(2);
 
-                    $params = is_array($key) ? $key : ['id' => (string) $key];
+                    $params = \is_array($key) ? $key : ['id' => (string) $key];
                     $params[$this->languageAttribute] = $lang_id;
                     $params[0] = $this->controller ? $this->controller . '/update' : 'update';
 
@@ -73,9 +69,8 @@ class ActionColumn extends \yii\grid\ActionColumn
                     if ($this->ajax) {
                         $options['data-href'] = $url;
                         return Html::button('<span class="glyphicon glyphicon-pencil"></span> ' . $lang, $options);
-                    } else {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . $lang, $url, $options);
                     }
+                    return Html::a('<span class="glyphicon glyphicon-pencil"></span> ' . $lang, $url, $options);
                 };
             }
         }

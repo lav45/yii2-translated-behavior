@@ -55,7 +55,7 @@ trait LanguageUrlTrait
      */
     public function checkLanguageParams($params)
     {
-        if (is_array($params) && empty($params[$this->languageParam])) {
+        if (\is_array($params) && empty($params[$this->languageParam])) {
             $params[$this->languageParam] = $this->getLanguage();
         }
         return $params;

@@ -16,28 +16,24 @@
             "email": "lav451@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
     "require": {
-        "yiisoft/yii2": "^2.0"
+        "yiisoft/yii2-dev": "^3.0@dev"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "4 - 5",
-        "phpunit/dbunit": "*"
+        "phpunit/dbunit": "*",
+        "ext-sqlite3": "*"
     },
     "autoload": {
         "psr-4": {
-            "lav45\\translate\\": "src"
+            "lav45\\translate\\": "src",
+            "lav45\\translate\\test\\": "tests"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.4.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }
