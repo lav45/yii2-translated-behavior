@@ -98,14 +98,13 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     protected function getTranslateRelations()
     {
-        $records = $this->owner->getRelatedRecords();
-        if (isset($records[$this->translateRelation])) {
-            $translations = ArrayHelper::index($records[$this->translateRelation], $this->languageAttribute);
+        if ($this->owner->isRelationPopulated($this->translateRelation)) {
+            $translations = ArrayHelper::index($this->owner->__get($this->translateRelation), $this->languageAttribute);
             $this->setTranslateRelations($translations);
         } else {
             $this->setTranslateRelations($this->owner['currentTranslate']);
         }
-        return $this->owner->{$this->translateRelation};
+        return $this->owner->__get($this->translateRelation);
     }
 
     /**
@@ -145,8 +144,8 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function canGetProperty($name, $checkVars = true)
     {
         return $this->isAttribute($name) ||
-        parent::canGetProperty($name, $checkVars) ||
-        (is_object($this->getTranslation()) && $this->getTranslation()->canGetProperty($name, $checkVars));
+            parent::canGetProperty($name, $checkVars) ||
+            (is_object($this->getTranslation()) && $this->getTranslation()->canGetProperty($name, $checkVars));
     }
 
     /**
@@ -155,8 +154,8 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function canSetProperty($name, $checkVars = true)
     {
         return $this->isAttribute($name) ||
-        parent::canSetProperty($name, $checkVars) ||
-        (is_object($this->getTranslation()) && $this->getTranslation()->canSetProperty($name, $checkVars));
+            parent::canSetProperty($name, $checkVars) ||
+            (is_object($this->getTranslation()) && $this->getTranslation()->canSetProperty($name, $checkVars));
     }
 
     /**
@@ -167,10 +166,9 @@ class TranslatedBehavior extends BaseTranslatedBehavior
         $getter = 'get' . $name;
         if (method_exists($this, $getter)) {
             return $this->$getter();
-        } else {
-            $name = $this->getTranslateAttributeName($name) ?: $name;
-            return $this->getTranslation()[$name];
         }
+        $name = $this->getTranslateAttributeName($name) ?: $name;
+        return $this->getTranslation()[$name];
     }
 
     /**
@@ -198,7 +196,7 @@ class TranslatedBehavior extends BaseTranslatedBehavior
     public function hasMethod($name)
     {
         return parent::hasMethod($name) ||
-        is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name);
+            (is_object($this->getTranslation()) && $this->getTranslation()->hasMethod($name));
     }
 
     /**
