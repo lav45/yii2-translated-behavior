@@ -8,6 +8,7 @@
 
 namespace lav45\translate;
 
+use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
@@ -135,7 +136,12 @@ class TranslatedBehavior extends BaseTranslatedBehavior
      */
     protected function getRelation()
     {
-        return $this->owner->getRelation($this->translateRelation);
+        /** @var \yii\db\ActiveQuery $relation */
+        $relation = $this->owner->getRelation($this->translateRelation);
+        if ($relation->multiple === false) {
+            throw new InvalidConfigException("{$this->translateRelation} must have a one-to-many relationship ->hasMany()");
+        }
+        return $relation;
     }
 
     /**
